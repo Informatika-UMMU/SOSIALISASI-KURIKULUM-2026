@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sosialisasi Perubahan Kurikulum 2026-2027 | Program Studi Informatika</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f6ff',
+                            100: '#e0edff',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans">
+
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3">
+                    <div class="bg-brand-600 text-white p-2 rounded-xl">
+                        <i class="fa-solid fa-graduation-cap text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg text-slate-900 block leading-tight">Kurikulum 2026</span>
+                        <span class="text-xs text-slate-500 font-medium">Prodi Informatika</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-6 text-sm font-semibold text-slate-600">
+                    <a href="#pengumuman" class="hover:text-brand-600 transition">Pengumuman</a>
+                    <a href="#kode-mk" class="hover:text-brand-600 transition">Struktur Kode</a>
+                    <a href="#daftar-mk" class="hover:text-brand-600 transition">Daftar Mata Kuliah</a>
+                    <a href="#prasyarat" class="hover:text-brand-600 transition">MK Bersyarat</a>
+                </div>
+                <a href="#zoom-section" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition shadow-md shadow-brand-500/20">
+                    <i class="fa-solid fa-video mr-1.5"></i> Join Zoom
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- BAGIAN 1: PENGUMUMAN & HERO SECTION -->
+    <section id="pengumuman" class="relative overflow-hidden bg-gradient-to-b from-brand-50 to-slate-50 py-16 lg:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Badges -->
+            <div class="flex flex-wrap items-center gap-3 mb-6">
+                <div class="inline-flex items-center gap-2 bg-amber-100 border border-amber-300 text-amber-800 text-xs font-semibold px-3 py-1.5 rounded-full">
+                    <span class="flex h-2 w-2 rounded-full bg-amber-500 animate-ping"></span>
+                    PENTING: Berlaku Mulai Semester Ganjil TA 2026/2027
+                </div>
+                <!-- TOTAL SKS BADGE -->
+                <div class="inline-flex items-center gap-1.5 bg-brand-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
+                    <i class="fa-solid fa-award"></i>
+                    <span>TOTAL BEBAN KELULUSAN: 144 SKS</span>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-6">
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                        Sosialisasi & Permutasi <br>
+                        <span class="text-brand-600">Kurikulum Baru 2026–2027</span>
+                    </h1>
+                    <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
+                        Seluruh mahasiswa Informatika <strong>wajib memperhatikan</strong> perubahan struktur kurikulum terbaru. Terdapat penyesuaian mata kuliah yang <strong>dihapus/digantikan</strong>, serta <strong>pergeseran letak semester</strong> untuk pemenuhan kelulusan <strong>Total 144 SKS</strong>.
+                    </p>
+                    
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                        <div class="flex items-start gap-3">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-500 text-lg mt-0.5"></i>
+                            <div class="text-sm">
+                                <span class="font-bold text-slate-900">Perhatian Bagi Mahasiswa:</span>
+                                <p class="text-slate-600">Pastikan memeriksa tabel kesetaraan mata kuliah agar tidak terjadi kendala saat KRS Semester Ganjil September 2026.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARDS ZOOM SOSIALISASI -->
+                <div id="zoom-section" class="lg:col-span-5">
+                    <div class="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-2xl relative border border-slate-800">
+                        <div class="absolute -top-3 -right-3 bg-red-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+                            Wajib Hadir
+                        </div>
+                        
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-12 h-12 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-video"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">Sosialisasi Kurikulum via Zoom</h3>
+                                <p class="text-xs text-slate-400">Seluruh Mahasiswa Aktif Informatika</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 text-sm mb-6">
+                            <div class="flex items-center gap-3 bg-slate-800/80 p-3 rounded-xl border border-slate-700/50">
+                                <i class="fa-regular fa-calendar text-brand-400"></i>
+                                <span>Rabu, <strong>19 Agustus 2026</strong></span>
+                            </div>
+                            <div class="flex items-center gap-3 bg-slate-800/80 p-3 rounded-xl border border-slate-700/50">
+                                <i class="fa-regular fa-clock text-brand-400"></i>
+                                <span>20.00 - Selesai WIT</span>
+                            </div>
+                            <div class="flex items-center gap-3 bg-slate-800/80 p-3 rounded-xl border border-slate-700/50">
+                                <i class="fa-solid fa-link text-brand-400"></i>
+                                <span class="truncate">TBA (Akan Diinformasikan)</span>
+                            </div>
+                        </div>
+
+                        <a href="https://zoom.us" target="_blank" class="block w-full bg-brand-500 hover:bg-brand-600 text-center text-white font-bold py-3 rounded-xl transition shadow-lg shadow-brand-500/30 text-sm">
+                            Masuk Ruang Zoom
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 2.1: PENJELASAN KODE MATAKULIAH -->
+    <section id="kode-mk" class="py-16 bg-white border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">Sistem Kodifikasi</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Struktur Penamaan Kode Mata Kuliah</h2>
+                <p class="text-slate-500 text-sm mt-2">Memudahkan mahasiswa mengidentifikasi pengampu, kurikulum, dan letak semester.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- IF -->
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 relative hover:shadow-md transition">
+                    <div class="inline-block bg-blue-100 text-blue-700 font-extrabold text-lg px-3 py-1 rounded-lg mb-4">IF26213</div>
+                    <h3 class="font-bold text-slate-900 text-base mb-2">Mata Kuliah Program Studi</h3>
+                    <ul class="text-xs text-slate-600 space-y-2 border-t border-slate-200 pt-3">
+                        <li><b class="text-slate-800">IF</b> : Kelompok Prodi Informatika</li>
+                        <li><b class="text-slate-800">26</b> : Berlaku Kurikulum 2026</li>
+                        <li><b class="text-slate-800">2</b> : Semester 2</li>
+                        <li><b class="text-slate-800">13</b> : Kode Unik Mata Kuliah</li>
+                    </ul>
+                </div>
+
+                <!-- FT -->
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 relative hover:shadow-md transition">
+                    <div class="inline-block bg-amber-100 text-amber-800 font-extrabold text-lg px-3 py-1 rounded-lg mb-4">FT26325</div>
+                    <h3 class="font-bold text-slate-900 text-base mb-2">Mata Kuliah Fakultas</h3>
+                    <ul class="text-xs text-slate-600 space-y-2 border-t border-slate-200 pt-3">
+                        <li><b class="text-slate-800">FT</b> : Mata Kuliah Lintas Fakultas Teknik</li>
+                        <li><b class="text-slate-800">26</b> : Kurikulum 2026</li>
+                        <li><b class="text-slate-800">3</b> : Semester 3</li>
+                        <li><b class="text-slate-800">25</b> : Kode Unik Mata Kuliah</li>
+                    </ul>
+                </div>
+
+                <!-- UM -->
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 relative hover:shadow-md transition">
+                    <div class="inline-block bg-emerald-100 text-emerald-800 font-extrabold text-lg px-3 py-1 rounded-lg mb-4">UM26318</div>
+                    <h3 class="font-bold text-slate-900 text-base mb-2">Mata Kuliah Universitas</h3>
+                    <ul class="text-xs text-slate-600 space-y-2 border-t border-slate-200 pt-3">
+                        <li><b class="text-slate-800">UM</b> : Mata Kuliah Wajib Universitas / AIK</li>
+                        <li><b class="text-slate-800">26</b> : Kurikulum 2026</li>
+                        <li><b class="text-slate-800">3</b> : Semester 3</li>
+                        <li><b class="text-slate-800">18</b> : Kode Unik Mata Kuliah</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 2.2: DAFTAR MATAKULIAH BARU -->
+    <section id="daftar-mk" class="py-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                <div>
+                    <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">Kurikulum Baru</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Daftar Mata Kuliah 2026–2027</h2>
+                    <p class="text-xs text-slate-500 mt-1">Target Kelulusan Sarjana Komputer (S.Kom): <strong>144 SKS</strong></p>
+                </div>
+                
+                <!-- Filter & Search -->
+                <div class="flex flex-wrap gap-3">
+                    <input type="text" id="searchInput" placeholder="Cari nama atau kode MK..." class="bg-white border border-slate-300 text-xs rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 w-full sm:w-64">
+                    <select id="semesterFilter" class="bg-white border border-slate-300 text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <option value="all">Semua Semester</option>
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
+                        <option value="5">Semester 5</option>
+                        <option value="6">Semester 6</option>
+                        <option value="7">Semester 7</option>
+                        <option value="8">Semester 8</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- TABEL MATA KULIAH -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs sm:text-sm text-slate-600">
+                        <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                            <tr>
+                                <th class="p-4">Kode</th>
+                                <th class="p-4">Nama Mata Kuliah</th>
+                                <th class="p-4 text-center">SKS</th>
+                                <th class="p-4 text-center">Semester</th>
+                                <th class="p-4">Kategori / Konsentrasi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mkTableBody" class="divide-y divide-slate-200">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAGIAN 2.3: BAGAN MATAKULIAH BERSYARAT -->
+    <section id="prasyarat" class="py-16 bg-white border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">Alur Prasyarat Berjenjang</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Bagan Mata Kuliah Bersyarat Complete</h2>
+                <p class="text-slate-500 text-sm mt-2">Mata kuliah fondasi yang wajib lulus sebelum mengambil mata kuliah tingkat lanjut.</p>
+            </div>
+
+            <!-- Flowchart Cards Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- 1. Pemrograman & RPL -->
+                <div class="border border-slate-200 rounded-2xl p-5 bg-slate-50 space-y-4 shadow-sm hover:shadow-md transition">
+                    <div class="font-bold text-slate-900 text-sm flex items-center justify-between border-b border-slate-200 pb-3">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-code text-brand-600"></i> Algoritma & RPL</span>
+                        <span class="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full font-bold">Rumpun 1</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <div class="p-2.5 bg-white border border-slate-200 rounded-xl">
+                            <span class="text-slate-400 block text-[10px]">SEMESTER 1</span>
+                            <span class="font-bold text-slate-800">IF26102 Dasar Pemrograman (3 SKS)</span>
+                        </div>
+                        <div class="text-center text-slate-400"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="p-2.5 bg-blue-50 border border-blue-200 rounded-xl">
+                            <span class="text-blue-500 block text-[10px]">SEMESTER 2</span>
+                            <span class="font-bold text-blue-900">IF26217 Algoritma & Pemrograman (3 SKS)</span>
+                        </div>
+                        <div class="text-center text-slate-400"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="p-2.5 bg-indigo-50 border border-indigo-200 rounded-xl">
+                            <span class="text-indigo-500 block text-[10px]">SEMESTER 3</span>
+                            <span class="font-bold text-indigo-900">IF26323 PBO (3 SKS) & IF26326 Struktur Data (3 SKS)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Web & Mobile -->
+                <div class="border border-slate-200 rounded-2xl p-5 bg-slate-50 space-y-4 shadow-sm hover:shadow-md transition">
+                    <div class="font-bold text-slate-900 text-sm flex items-center justify-between border-b border-slate-200 pb-3">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-laptop-code text-brand-600"></i> Web & Mobile Dev</span>
+                        <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">Rumpun 2</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <div class="p-2.5 bg-white border border-slate-200 rounded-xl">
+                            <span class="text-slate-400 block text-[10px]">SEMESTER 1 & 3</span>
+                            <span class="font-bold text-slate-800">IF26107 Pengantar Apl. Komputer → IF26320 Desain Web (3 SKS)</span>
+                        </div>
+                        <div class="text-center text-slate-400"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl">
+                            <span class="text-emerald-600 block text-[10px]">SEMESTER 4</span>
+                            <span class="font-bold text-emerald-900">IF26429 Pemrograman Web (3 SKS)</span>
+                        </div>
+                        <div class="text-center text-slate-400"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="p-2.5 bg-teal-50 border border-teal-200 rounded-xl">
+                            <span class="text-teal-600 block text-[10px]">SEMESTER 5</span>
+                            <span class="font-bold text-teal-900">IF26538 Pemrograman Mobile (3 SKS)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Jaringan & Keamanan -->
+                <div class="border border-slate-200 rounded-2xl p-5 bg-slate-50 space-y-4 shadow-sm hover:shadow-md transition">
+                    <div class="font-bold text-slate-900 text-sm flex items-center justify-between border-b border-slate-200 pb-3">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-network-wired text-brand-600"></i> Jaringan & Server</span>
+                        <span class="text-[10px] bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full font-bold">Rumpun 3</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <div class="p-2.5 bg-white border border-slate-200 rounded-xl">
+                            <span class="text-slate-400 block text-[10px]">SEMESTER 1</span>
+                            <span class="font-bold text-slate-800">IF26109 Pengantar Jaringan & Keamanan (3 SKS)</span>
+                        </div>
+                        <div class="text-center text-slate-400"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="p-2.5 bg-purple-50 border border-purple-200 rounded-xl">
+                            <span class="text-purple-600 block text-[10px]">SEMESTER 4 & 5</span>
+                            <span class="font-bold text-purple-900">IF26428 Jaringan Komputer I → IF26539 Jaringan Komputer II</span>
+                        </div>
+                        <div class="text-center text-slate-400"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="p-2.5 bg-fuchsia-50 border border-fuchsia-200 rounded-xl">
+                            <span class="text-fuchsia-600 block text-[10px]">SEMESTER 6</span>
+                            <span class="font-bold text-fuchsia-900">IF26661 Admin Server → IF26662 Cloud Computing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Data Science & AI -->
+                <div class="border border-slate-200 rounded-2xl p-5 bg-slate-50 space-y-4 shadow-sm hover:shadow-md transition">
+                    <div class="font-bold text-slate-900 text-sm flex items-center justify-between border-b border-slate-200 pb-3">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-brain text-brand-600"></i> Data Science & AI</span>
+                        <span class="text-[10px] bg-rose-100 text-rose-800 px-2 py-0.5 rounded-full font-bold">Rumpun 4</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <div class="p-2.5 bg-white border border-slate-200 rounded-xl">
+                            <span class="text-slate-400 block text-[10px]">SEMESTER 3 & 4</span>
+                            <span class="font-bold text-slate-800">FT26325 Statistika & IF26434 Kecerdasan Buatan</span>
+                        </div>
+                        <div class="text-center text-slate-400"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="p-2.5 bg-rose-50 border border-rose-200 rounded-xl">
+                            <span class="text-rose-600 block text-[10px]">SEMESTER 5</span>
+                            <span class="font-bold text-rose-900">IF26542 Machine Learning (3 SKS)</span>
+                        </div>
+                        <div class="text-center text-slate-400"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="p-2.5 bg-pink-50 border border-pink-200 rounded-xl">
+                            <span class="text-pink-600 block text-[10px]">SEMESTER 6</span>
+                            <span class="font-bold text-pink-900">IF26654 NLP / IF26658 Deep Learning / Computer Vision</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Basis Data -->
+                <div class="border border-slate-200 rounded-2xl p-5 bg-slate-50 space-y-4 shadow-sm hover:shadow-md transition">
+                    <div class="font-bold text-slate-900 text-sm flex items-center justify-between border-b border-slate-200 pb-3">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-database text-brand-600"></i> Basis Data & Sistem</span>
+                        <span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">Rumpun 5</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <div class="p-2.5 bg-white border border-slate-200 rounded-xl">
+                            <span class="text-slate-400 block text-[10px]">SEMESTER 3</span>
+                            <span class="font-bold text-slate-800">IF26324 Sistem Basis Data (3 SKS)</span>
+                        </div>
+                        <div class="text-center text-slate-400"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="p-2.5 bg-amber-50 border border-amber-200 rounded-xl">
+                            <span class="text-amber-600 block text-[10px]">SEMESTER 4</span>
+                            <span class="font-bold text-amber-900">IF26432 Basis Data Terdistribusi (3 SKS)</span>
+                        </div>
+                        <div class="text-center text-slate-400"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="p-2.5 bg-orange-50 border border-orange-200 rounded-xl">
+                            <span class="text-orange-600 block text-[10px]">SEMESTER 5 / 6</span>
+                            <span class="font-bold text-orange-900">IF26536 Tata Kelola TI / IF26655 Data Science</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Tugas Akhir / Capstone -->
+                <div class="border border-slate-200 rounded-2xl p-5 bg-slate-50 space-y-4 shadow-sm hover:shadow-md transition">
+                    <div class="font-bold text-slate-900 text-sm flex items-center justify-between border-b border-slate-200 pb-3">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-user-graduate text-brand-600"></i> Jalur Kelulusan (Tugas Akhir)</span>
+                        <span class="text-[10px] bg-cyan-100 text-cyan-800 px-2 py-0.5 rounded-full font-bold">Rumpun 6</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <div class="p-2.5 bg-white border border-slate-200 rounded-xl">
+                            <span class="text-slate-400 block text-[10px]">SEMESTER 5</span>
+                            <span class="font-bold text-slate-800">IF26535 Metode Penulisan Ilmiah (2 SKS)</span>
+                        </div>
+                        <div class="text-center text-slate-400"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="p-2.5 bg-cyan-50 border border-cyan-200 rounded-xl">
+                            <span class="text-cyan-600 block text-[10px]">SEMESTER 7 (Lulus Min. 90 SKS)</span>
+                            <span class="font-bold text-cyan-900">FT26768 Kerja Praktek / KP (4 SKS)</span>
+                        </div>
+                        <div class="text-center text-slate-400"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="p-2.5 bg-sky-50 border border-sky-200 rounded-xl">
+                            <span class="text-sky-600 block text-[10px]">SEMESTER 8</span>
+                            <span class="font-bold text-sky-900">UM26771 Proposal (2 SKS) → UM26772 Skripsi (4 SKS)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p>© 2026 Program Studi Teknik Informatika - Universitas Muhammadiyah Maluku Utara.</p>
+            <p>Halaman ini resmi digunakan untuk Sosialisasi Perubahan Kurikulum TA 2026/2027 (Total 144 SKS).</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT DATA MATA KULIAH -->
+    <script>
+        const courses = [
+            {kode: "UM26101", nama: "AL ISLAM KEMUHAMMADIYAHAAN I", sks: 2, sem: 1, cat: "MKWK / AIK"},
+            {kode: "IF26102", nama: "DASAR PEMOGRAMAN*", sks: 3, sem: 1, cat: "Wajib Prodi"},
+            {kode: "UM26103", nama: "BAHASA INDONESIA", sks: 2, sem: 1, cat: "MKWK"},
+            {kode: "FT26104", nama: "KALKULUS", sks: 2, sem: 1, cat: "Fakultas"},
+            {kode: "UM26105", nama: "PANCASILA", sks: 2, sem: 1, cat: "MKWK"},
+            {kode: "UM26106", nama: "PENDIDIKAN ANTI KORUPSI", sks: 2, sem: 1, cat: "MKWK"},
+            {kode: "IF26107", nama: "PENGANTAR APLIKASI KOMPUTER*", sks: 2, sem: 1, cat: "Wajib Prodi"},
+            {kode: "IF26108", nama: "PENGANTAR TEKNOLOGI INFORMASI", sks: 2, sem: 1, cat: "Wajib Prodi"},
+            {kode: "IF26109", nama: "PENGANTAR JARINGAN & KEAMANAN INFORMASI*", sks: 3, sem: 1, cat: "Wajib Prodi"},
+            {kode: "UM26210", nama: "AL ISLAM KEMUHAMMADIYAAN II", sks: 2, sem: 2, cat: "MKWK / AIK"},
+            {kode: "UM26211", nama: "BAHASA INGGRIS", sks: 2, sem: 2, cat: "MKWK"},
+            {kode: "FT26212", nama: "FISIKA DAN ELEKTRONIKA TEKNOLOGI INFORMASI", sks: 2, sem: 2, cat: "Fakultas"},
+            {kode: "IF26213", nama: "MULTIMEDIA*", sks: 3, sem: 2, cat: "Wajib Prodi"},
+            {kode: "IF26214", nama: "ORGANISASI & ARSITEKTUR KOMPUTER*", sks: 3, sem: 2, cat: "Wajib Prodi"},
+            {kode: "IF26215", nama: "SISTEM DIGITAL*", sks: 3, sem: 2, cat: "Wajib Prodi"},
+            {kode: "IF26216", nama: "SISTEM INFORMASI", sks: 2, sem: 2, cat: "Wajib Prodi"},
+            {kode: "IF26217", nama: "ALGORITMA PEMOGRAMAN*", sks: 3, sem: 2, cat: "Wajib Prodi"},
+            {kode: "UM26318", nama: "AL ISLAM KEMUHAMMADIYAAN III", sks: 2, sem: 3, cat: "MKWK / AIK"},
+            {kode: "FT26319", nama: "ALJABAR LINER DAN MATRIKS", sks: 2, sem: 3, cat: "Fakultas"},
+            {kode: "IF26320", nama: "DESAIN WEB*", sks: 3, sem: 3, cat: "Wajib Prodi"},
+            {kode: "IF26321", nama: "INTERAKSI MANUSIA DAN KOMPUTER", sks: 2, sem: 3, cat: "Softskill"},
+            {kode: "UM26322", nama: "KEWARGANEGARAAN", sks: 2, sem: 3, cat: "MKWK"},
+            {kode: "IF26323", nama: "PEMROGRAMAN BERORIENTASI OBJEK*", sks: 3, sem: 3, cat: "Wajib Prodi"},
+            {kode: "IF26324", nama: "SISTEM BASIS DATA *", sks: 3, sem: 3, cat: "Inti SI"},
+            {kode: "FT26325", nama: "STATISTIKA INFORMATIKA", sks: 2, sem: 3, cat: "Fakultas"},
+            {kode: "IF26326", nama: "STRUKTUR DATA*", sks: 3, sem: 3, cat: "Wajib Prodi"},
+            {kode: "UM26427", nama: "AL ISLAM KEMUHAMMADIYAHAAN IV", sks: 2, sem: 4, cat: "MKWK / AIK"},
+            {kode: "IF26428", nama: "JARINGAN KOMPUTER 1*", sks: 3, sem: 4, cat: "Wajib Prodi"},
+            {kode: "IF26429", nama: "PEMOGRAMAN WEB*", sks: 3, sem: 4, cat: "Wajib Prodi"},
+            {kode: "IF26430", nama: "REKAYASA PERANGKAT LUNAK", sks: 2, sem: 4, cat: "Wajib Prodi"},
+            {kode: "IF26431", nama: "GRAFIKA KOMPUTER*", sks: 3, sem: 4, cat: "Wajib Prodi"},
+            {kode: "IF26432", nama: "BASIS DATA TERDISTRIBUSI", sks: 3, sem: 4, cat: "Wajib Prodi"},
+            {kode: "IF26433", nama: "SISTEM OPERASI*", sks: 3, sem: 4, cat: "Wajib Prodi"},
+            {kode: "IF26434", nama: "KECERDASAN BUATAN", sks: 2, sem: 4, cat: "Wajib Prodi"},
+            {kode: "IF26535", nama: "METODE PENULISAN ILMIAH", sks: 2, sem: 5, cat: "Wajib Prodi"},
+            {kode: "IF26536", nama: "TATA KELOLAH DAN INFORMASI", sks: 2, sem: 5, cat: "Wajib Prodi"},
+            {kode: "IF26537", nama: "TEORI BAHASA AUTOMATA", sks: 2, sem: 5, cat: "Wajib Prodi"},
+            {kode: "IF26538", nama: "PEMROGRAMAN MOBILE*", sks: 3, sem: 5, cat: "Wajib Prodi"},
+            {kode: "IF26539", nama: "JARINGAN KOMPUTER II*", sks: 3, sem: 5, cat: "Wajib Prodi"},
+            {kode: "IF26540", nama: "PENGOLAHAN CITRA DIGITAL*", sks: 3, sem: 5, cat: "Pilihan SI"},
+            {kode: "IF26541", nama: "PENJAMINAN KUALITAS PERANGKAT LUNAK", sks: 2, sem: 5, cat: "Pilihan SI"},
+            {kode: "IF26542", nama: "MACHINE LEARNING*", sks: 3, sem: 5, cat: "Pilihan SI"},
+            {kode: "IF26545", nama: "ROBOTIKA*", sks: 3, sem: 5, cat: "Pilihan Infra"},
+            {kode: "IF26546", nama: "JARINGAN NIRKABEL *", sks: 3, sem: 5, cat: "Pilihan Infra"},
+            {kode: "IF26547", nama: "KRIPTOGAFI", sks: 3, sem: 5, cat: "Pilihan Infra"},
+            {kode: "IF26651", nama: "FORENSIK DIGITAL", sks: 3, sem: 6, cat: "Wajib Prodi"},
+            {kode: "IF26652", nama: "ARSITEKTUR & KEAMANAN INFORMASI", sks: 2, sem: 6, cat: "Pilihan SI"},
+            {kode: "IF26653", nama: "PEMOGRAMAN GAME*", sks: 3, sem: 6, cat: "Pilihan SI"},
+            {kode: "IF26654", nama: "NATURAL LANGUAGE PROCESSING*", sks: 3, sem: 6, cat: "Pilihan SI"},
+            {kode: "IF26655", nama: "DATA SCIENCE", sks: 3, sem: 6, cat: "Pilihan SI"},
+            {kode: "IF26656", nama: "KOMPUTER VISION*", sks: 3, sem: 6, cat: "Pilihan SI"},
+            {kode: "IF26657", nama: "SISTEM INFORMASI GEOGRAFIS*", sks: 3, sem: 6, cat: "Pilihan SI"},
+            {kode: "IF26658", nama: "DEEP LEARNING", sks: 3, sem: 6, cat: "Pilihan SI"},
+            {kode: "IF26659", nama: "AUTOMASI SISTEM & JARINGAN *", sks: 3, sem: 6, cat: "Pilihan Infra"},
+            {kode: "IF26660", nama: "INFRASTRUKTUR TEKNOLOGI INFORMASI KEPULAUAN", sks: 3, sem: 6, cat: "Pilihan Infra"},
+            {kode: "IF26661", nama: "SISTEM ADMINISTRASI SERVER *", sks: 3, sem: 6, cat: "Pilihan Infra"},
+            {kode: "IF26662", nama: "CLOUD COMPUTING *", sks: 3, sem: 6, cat: "Pilihan Infra"},
+            {kode: "IF26663", nama: "PENGUKURAN KINERJA JARINGAN", sks: 2, sem: 6, cat: "Pilihan Infra"},
+            {kode: "IF26664", nama: "INTERNET OF THINGS *", sks: 3, sem: 6, cat: "Pilihan Infra"},
+            {kode: "IF26665", nama: "KEAMANAN SISTEM DAN JARINGAN KOMPUTER", sks: 2, sem: 6, cat: "Pilihan Infra"},
+            {kode: "IF26767", nama: "TECHNOPRENEURSHIP DAN ETIKA PROFESI", sks: 2, sem: 7, cat: "Wajib Prodi"},
+            {kode: "FT26768", nama: "KERJA PRAKTEK", sks: 4, sem: 7, cat: "Capstone"},
+            {kode: "IF26769", nama: "KECAKAPAN INTERPERSONAL", sks: 2, sem: 7, cat: "Wajib Prodi"},
+            {kode: "UM26770", nama: "KKS", sks: 4, sem: 8, cat: "MKWK"},
+            {kode: "UM26771", "nama": "PROPOSAL", sks: 2, sem: 8, cat: "Capstone"},
+            {kode: "UM26772", "nama": "SKRIPSI", sks: 4, sem: 8, cat: "Capstone"}
+        ];
+
+        function renderTable(data) {
+            const tbody = document.getElementById('mkTableBody');
+            tbody.innerHTML = '';
+            
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-slate-50 transition';
+                row.innerHTML = `
+                    <td class="p-4 font-mono font-bold text-brand-600">${item.kode}</td>
+                    <td class="p-4 font-medium text-slate-800">${item.nama}</td>
+                    <td class="p-4 text-center font-semibold">${item.sks}</td>
+                    <td class="p-4 text-center"><span class="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md text-xs font-semibold">Semester ${item.sem}</span></td>
+                    <td class="p-4"><span class="text-xs text-slate-500">${item.cat}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Search and Filter Logic
+        document.getElementById('searchInput').addEventListener('input', filterData);
+        document.getElementById('semesterFilter').addEventListener('change', filterData);
+
+        function filterData() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const semVal = document.getElementById('semesterFilter').value;
+
+            const filtered = courses.filter(item => {
+                const matchesSearch = item.kode.toLowerCase().includes(searchVal) || item.nama.toLowerCase().includes(searchVal);
+                const matchesSem = (semVal === 'all') || (item.sem.toString() === semVal);
+                return matchesSearch && matchesSem;
+            });
+
+            renderTable(filtered);
+        }
+
+        // Initial Render
+        renderTable(courses);
+    </script>
+</body>
+</html>
