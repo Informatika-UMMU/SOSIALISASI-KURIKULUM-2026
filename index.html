@@ -35,18 +35,21 @@
 <body class="bg-slate-50 text-slate-800 antialiased font-sans">
 
     <!-- NAVBAR -->
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
+                <!-- LOGO & TITLE -->
                 <div class="flex items-center gap-3">
                     <div class="bg-brand-600 text-white p-2 rounded-xl">
                         <i class="fa-solid fa-graduation-cap text-xl"></i>
                     </div>
                     <div>
                         <span class="font-bold text-lg text-slate-900 block leading-tight">Kurikulum 2026</span>
-                        <span class="text-xs text-slate-500 font-medium">Prodi Informatika</span>
+                        <span class="text-xs text-slate-500 font-medium">Prodi Informatika UMMU</span>
                     </div>
                 </div>
+
+                <!-- DESKTOP MENU -->
                 <div class="hidden md:flex space-x-6 text-sm font-semibold text-slate-600">
                     <a href="#pengumuman" class="hover:text-brand-600 transition">Pengumuman</a>
                     <a href="#kode-mk" class="hover:text-brand-600 transition">Struktur Kode</a>
@@ -54,10 +57,31 @@
                     <a href="#prasyarat" class="hover:text-brand-600 transition">MK Bersyarat</a>
                     <a href="jadwal.html" class="text-brand-600 font-bold hover:underline transition">Jadwal Kuliah</a>
                 </div>
-                <a href="#zoom-section" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition shadow-md shadow-brand-500/20">
+
+                <!-- DESKTOP ZOOM BUTTON -->
+                <a href="#zoom-section" class="hidden md:inline-flex bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition shadow-md shadow-brand-500/20">
                     <i class="fa-solid fa-video mr-1.5"></i> Join Zoom
                 </a>
+
+                <!-- MOBILE HAMBURGER BUTTON -->
+                <button id="mobileMenuBtn" aria-label="Toggle Navigation" class="md:hidden p-2 rounded-lg text-slate-600 hover:text-brand-600 hover:bg-slate-100 focus:outline-none transition">
+                    <i id="hamburgerIcon" class="fa-solid fa-bars text-xl"></i>
+                </button>
             </div>
+        </div>
+
+        <!-- MOBILE MENU PANEL -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2 text-sm font-semibold text-slate-700">
+            <a href="#pengumuman" class="mobile-link block py-2 px-3 rounded-lg hover:bg-slate-50 hover:text-brand-600 transition">Pengumuman</a>
+            <a href="#kode-mk" class="mobile-link block py-2 px-3 rounded-lg hover:bg-slate-50 hover:text-brand-600 transition">Struktur Kode</a>
+            <a href="#daftar-mk" class="mobile-link block py-2 px-3 rounded-lg hover:bg-slate-50 hover:text-brand-600 transition">Daftar Mata Kuliah</a>
+            <a href="#prasyarat" class="mobile-link block py-2 px-3 rounded-lg hover:bg-slate-50 hover:text-brand-600 transition">MK Bersyarat</a>
+            <a href="jadwal.html" class="mobile-link block py-2 px-3 rounded-lg bg-brand-50 text-brand-600 font-bold transition">
+                <i class="fa-solid fa-calendar-days mr-2"></i>Jadwal Kuliah
+            </a>
+            <a href="#zoom-section" class="mobile-link block w-full text-center bg-brand-600 hover:bg-brand-700 text-white font-bold py-2.5 rounded-xl transition shadow-md shadow-brand-500/20 mt-2">
+                <i class="fa-solid fa-video mr-1.5"></i> Join Zoom
+            </a>
         </div>
     </nav>
 
@@ -407,12 +431,41 @@
     <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
             <p>© 2026 Program Studi Teknik Informatika - Universitas Muhammadiyah Maluku Utara.</p>
-            <p>Halaman ini resmi digunakan untuk Sosialisasi Perubahan Kurikulum TA 2026/2027</p>
+            <p>Halaman ini resmi digunakan untuk Sosialisasi Perubahan Kurikulum TA 2026/2027 (Total 144 SKS).</p>
         </div>
     </footer>
 
-    <!-- SCRIPT DATA MATA KULIAH -->
+    <!-- SCRIPT DATA & INTERAKSI MOBILE MENU -->
     <script>
+        // LOGIKA MOBILE MENU TOGGLE
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const hamburgerIcon = document.getElementById('hamburgerIcon');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                hamburgerIcon.classList.remove('fa-bars');
+                hamburgerIcon.classList.add('fa-xmark');
+            } else {
+                mobileMenu.classList.add('hidden');
+                hamburgerIcon.classList.remove('fa-xmark');
+                hamburgerIcon.classList.add('fa-bars');
+            }
+        });
+
+        // Tutup menu mobile ketika salah satu tautan diklik
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                hamburgerIcon.classList.remove('fa-xmark');
+                hamburgerIcon.classList.add('fa-bars');
+            });
+        });
+
+        // DATA MATA KULIAH
         const courses = [
             {kode: "UM26101", nama: "AL ISLAM KEMUHAMMADIYAHAAN I", sks: 2, sem: 1, cat: "MKWK"},
             {kode: "IF26102", nama: "DASAR PEMOGRAMAN*", sks: 3, sem: 1, cat: "Wajib Prodi"},
@@ -505,7 +558,6 @@
             const summaryContainer = document.getElementById('sksSummaryContainer');
 
             if (semVal === '5' || semVal === '6') {
-                // Hitung Wajib, Pilihan SI, dan Pilihan Infra untuk semester tersebut
                 let sksWajib = 0;
                 let sksSI = 0;
                 let sksInfra = 0;
