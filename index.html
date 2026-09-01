@@ -52,6 +52,7 @@
                     <a href="#kode-mk" class="hover:text-brand-600 transition">Struktur Kode</a>
                     <a href="#daftar-mk" class="hover:text-brand-600 transition">Daftar Mata Kuliah</a>
                     <a href="#prasyarat" class="hover:text-brand-600 transition">MK Bersyarat</a>
+                    <a href="jadwal.html" class="text-brand-600 font-bold hover:underline transition">Jadwal Kuliah</a>
                 </div>
                 <a href="#zoom-section" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition shadow-md shadow-brand-500/20">
                     <i class="fa-solid fa-video mr-1.5"></i> Join Zoom
@@ -191,7 +192,7 @@
     <!-- BAGIAN 2.2: DAFTAR MATAKULIAH BARU -->
     <section id="daftar-mk" class="py-16 bg-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-4">
                 <div>
                     <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">Kurikulum Baru</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Daftar Mata Kuliah 2026–2027</h2>
@@ -201,7 +202,7 @@
                 <!-- Filter & Search -->
                 <div class="flex flex-wrap gap-3">
                     <input type="text" id="searchInput" placeholder="Cari nama atau kode MK..." class="bg-white border border-slate-300 text-xs rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 w-full sm:w-64">
-                    <select id="semesterFilter" class="bg-white border border-slate-300 text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    <select id="semesterFilter" class="bg-white border border-slate-300 text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium">
                         <option value="all">Semua Semester</option>
                         <option value="1">Semester 1</option>
                         <option value="2">Semester 2</option>
@@ -213,6 +214,11 @@
                         <option value="8">Semester 8</option>
                     </select>
                 </div>
+            </div>
+
+            <!-- CONTAINER LABEL TOTAL SKS -->
+            <div id="sksSummaryContainer" class="mb-6">
+                <!-- Inner HTML akan di-render secara dinamis oleh JavaScript -->
             </div>
 
             <!-- TABEL MATA KULIAH -->
@@ -401,7 +407,7 @@
     <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
             <p>© 2026 Program Studi Teknik Informatika - Universitas Muhammadiyah Maluku Utara.</p>
-            <p>Halaman ini resmi digunakan untuk Sosialisasi Perubahan Kurikulum TA 2026/2027 (Total 144 SKS).</p>
+            <p>Halaman ini resmi digunakan untuk Sosialisasi Perubahan Kurikulum TA 2026/2027</p>
         </div>
     </footer>
 
@@ -494,6 +500,88 @@
             });
         }
 
+        // Logic Hitung Total SKS berdasarkan Konsentrasi / Filter Semester
+        function updateSksSummary(filteredData, semVal) {
+            const summaryContainer = document.getElementById('sksSummaryContainer');
+
+            if (semVal === '5' || semVal === '6') {
+                // Hitung Wajib, Pilihan SI, dan Pilihan Infra untuk semester tersebut
+                let sksWajib = 0;
+                let sksSI = 0;
+                let sksInfra = 0;
+
+                filteredData.forEach(item => {
+                    if (item.cat.includes("Pilihan SI")) {
+                        sksSI += item.sks;
+                    } else if (item.cat.includes("Pilihan Infra")) {
+                        sksInfra += item.sks;
+                    } else {
+                        sksWajib += item.sks;
+                    }
+                });
+
+                const totalSI = sksWajib + sksSI;
+                const totalInfra = sksWajib + sksInfra;
+
+                summaryContainer.innerHTML = `
+                    <div class="bg-gradient-to-r from-slate-900 to-brand-900 text-white p-4 sm:p-5 rounded-2xl shadow-md space-y-3">
+                        <div class="flex items-center gap-2 text-xs font-bold text-brand-300 uppercase tracking-wider">
+                            <i class="fa-solid fa-calculator"></i> Rincian Total SKS Semester ${semVal} per Konsentrasi
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm">
+                            <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-xl border border-white/15 flex justify-between items-center">
+                                <div>
+                                    <span class="font-bold text-blue-200 block">Konsentrasi Sistem Informasi (SI)</span>
+                                    <span class="text-[11px] text-slate-300">Wajib (${sksWajib} SKS) + Pilihan SI (${sksSI} SKS)</span>
+                                </div>
+                                <span class="text-lg font-extrabold text-amber-400 bg-amber-400/20 px-3 py-1 rounded-lg border border-amber-400/30">${totalSI} SKS</span>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-xl border border-white/15 flex justify-between items-center">
+                                <div>
+                                    <span class="font-bold text-emerald-200 block">Konsentrasi Infrastruktur & Jaringan</span>
+                                    <span class="text-[11px] text-slate-300">Wajib (${sksWajib} SKS) + Pilihan Infra (${sksInfra} SKS)</span>
+                                </div>
+                                <span class="text-lg font-extrabold text-amber-400 bg-amber-400/20 px-3 py-1 rounded-lg border border-amber-400/30">${totalInfra} SKS</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (semVal >= '1' && semVal <= '4') {
+                const totalSKS = filteredData.reduce((acc, curr) => acc + curr.sks, 0);
+                summaryContainer.innerHTML = `
+                    <div class="bg-brand-50 border border-brand-200 text-brand-900 p-4 rounded-2xl flex items-center justify-between shadow-xs">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-brand-600 text-white w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold shadow-xs">
+                                <i class="fa-solid fa-book-bookmark"></i>
+                            </div>
+                            <div>
+                                <span class="font-bold text-sm block text-slate-900">Total SKS Semester ${semVal}</span>
+                                <span class="text-xs text-slate-500">Mata kuliah wajib paket semester ${semVal}</span>
+                            </div>
+                        </div>
+                        <span class="text-xl font-extrabold text-brand-600 bg-white px-4 py-1.5 rounded-xl border border-brand-200 shadow-xs">${totalSKS} SKS</span>
+                    </div>
+                `;
+            } else {
+                const totalSKS = filteredData.reduce((acc, curr) => acc + curr.sks, 0);
+                const titleText = semVal === 'all' ? 'Total SKS Kurikulum Baru' : `Total SKS Semester ${semVal}`;
+                summaryContainer.innerHTML = `
+                    <div class="bg-slate-100 border border-slate-200 text-slate-800 p-4 rounded-2xl flex items-center justify-between shadow-xs">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-slate-800 text-white w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold shadow-xs">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
+                            <div>
+                                <span class="font-bold text-sm block text-slate-900">${titleText}</span>
+                                <span class="text-xs text-slate-500">${filteredData.length} Mata Kuliah Terdaftar</span>
+                            </div>
+                        </div>
+                        <span class="text-xl font-extrabold text-slate-900 bg-white px-4 py-1.5 rounded-xl border border-slate-200 shadow-xs">${totalSKS} SKS</span>
+                    </div>
+                `;
+            }
+        }
+
         // Search and Filter Logic
         document.getElementById('searchInput').addEventListener('input', filterData);
         document.getElementById('semesterFilter').addEventListener('change', filterData);
@@ -509,10 +597,12 @@
             });
 
             renderTable(filtered);
+            updateSksSummary(filtered, semVal);
         }
 
         // Initial Render
         renderTable(courses);
+        updateSksSummary(courses, 'all');
     </script>
 </body>
 </html>
