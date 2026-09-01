@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Jadwal Perkuliahan | Prodi Informatika UMMU</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f6ff',
+                            100: '#e0edff',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CSS Transisi Efek Redup/Abu-Abu (Dimmed) vs Menonjol (Highlighted) */
+        .schedule-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .schedule-card.dimmed {
+            opacity: 0.18 !important;
+            filter: grayscale(100%) blur(0.5px) !important;
+            transform: scale(0.96) !important;
+        }
+        .schedule-card.highlighted {
+            opacity: 1 !important;
+            filter: none !important;
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.45) !important;
+            border-color: #2563eb !important;
+            transform: scale(1.03) !important;
+            z-index: 20 !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans">
+
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3">
+                    <div class="bg-brand-600 text-white p-2 rounded-xl shadow-md shadow-brand-600/20">
+                        <i class="fa-solid fa-graduation-cap text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-lg text-slate-900 block leading-tight">Kurikulum 2026</span>
+                        <span class="text-xs text-slate-500 font-medium">Prodi Informatika UMMU</span>
+                    </div>
+                </div>
+
+                <!-- Menu Navigasi Sederhana -->
+                <div class="flex items-center space-x-6 text-sm font-semibold">
+                    <a href="index.html" class="text-slate-600 hover:text-brand-600 transition flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali ke Kurikulum
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENT WRAPPER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+        <!-- HEADER BANNER -->
+        <div class="bg-gradient-to-r from-brand-900 via-brand-800 to-slate-900 text-white rounded-3xl p-8 sm:p-10 shadow-xl relative overflow-hidden">
+            <div class="relative z-10 max-w-3xl space-y-3">
+                <div class="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 text-amber-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    <i class="fa-solid fa-calendar-check text-amber-400"></i> Master Jadwal Kuliah TA Ganjil 2026/2027
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                    Jadwal Perkuliahan Reguler
+                </h1>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    Gunakan panel filter di bawah ini untuk mencari jadwal berdasarkan nama Mata Kuliah, Kelas, Semester, atau Dosen Pengampu.
+                </p>
+            </div>
+        </div>
+
+        <!-- MASTER JADWAL KULIAH + MENU PENCARIAN & FILTER INTERAKTIF -->
+        <section id="jadwal-kuliah" class="space-y-6">
+            <div class="border-b border-slate-200 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Jadwal Perkuliahan Mingguan</h2>
+                    <p class="text-xs text-slate-500 mt-1">Area warna & rowspan menyesuaikan durasi jam perkuliahan (SKS) dari file master.</p>
+                </div>
+
+                <!-- Legend Warna Semester -->
+                <div class="flex flex-wrap items-center gap-3 text-xs font-bold">
+                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-blue-500 inline-block"></span> Sem 1</span>
+                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-500 inline-block"></span> Sem 3</span>
+                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-amber-500 inline-block"></span> Sem 5</span>
+                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-purple-500 inline-block"></span> Sem 7</span>
+                </div>
+            </div>
+
+            <!-- PANEL PENCARIAN & FILTER JADWAL -->
+            <div class="bg-slate-900 text-white p-6 rounded-3xl shadow-xl border border-slate-800">
+                <div class="flex items-center gap-2 mb-4 text-brand-400 font-bold text-xs uppercase tracking-wider">
+                    <i class="fa-solid fa-filter"></i> Menu Pencarian & Filter Jadwal
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <!-- 1. Search Matakuliah / Kelas -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Cari Matakuliah / Kelas</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
+                            <input type="text" id="schSearchInput" placeholder="Ketik nama MK / kelas..." class="w-full bg-slate-800 border border-slate-700 text-white text-xs rounded-xl pl-9 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                    </div>
+
+                    <!-- 2. Filter Semester -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Filter Semester</label>
+                        <select id="schSemesterFilter" class="w-full bg-slate-800 border border-slate-700 text-white text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="all">-- Semua Semester --</option>
+                            <option value="Sem 1">Semester 1</option>
+                            <option value="Sem 3">Semester 3</option>
+                            <option value="Sem V">Semester 5 (V)</option>
+                            <option value="Sem VII">Semester 7 (VII)</option>
+                        </select>
+                    </div>
+
+                    <!-- 3. Filter Dosen Pengampu -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Filter Dosen Pengampu</label>
+                        <select id="schDosenFilter" class="w-full bg-slate-800 border border-slate-700 text-white text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="all">-- Semua Dosen --</option>
+                        </select>
+                    </div>
+
+                    <!-- 4. Tombol Reset Filter -->
+                    <div class="flex items-end">
+                        <button id="btnResetFilter" class="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-rotate-right"></i> Reset Pencarian
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Indikator Efek Sorot -->
+                <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+                    <span class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span>
+                        <b>Keterangan:</b> Item yang cocok akan <b>menyala terang</b>, sedangkan item lainnya akan <b>meredup abu-abu</b>.
+                    </span>
+                </div>
+            </div>
+
+            <!-- TABEL JADWAL MINGGUAN -->
+            <div id="scheduleContainer" class="space-y-10">
+                <!-- Schedule tables will be rendered by JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p>© 2026 Program Studi Teknik Informatika - Universitas Muhammadiyah Maluku Utara.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT MASTER DATA & KOREKSI JADWAL -->
+    <script>
+        // Style Warna Berdasarkan Semester
+        const semColorStyle = {
+            'Sem 1': { bg: 'bg-blue-100/90', border: 'border-blue-400', text: 'text-blue-950', badge: 'bg-blue-600 text-white' },
+            'Sem 3': { bg: 'bg-emerald-100/90', border: 'border-emerald-400', text: 'text-emerald-950', badge: 'bg-emerald-600 text-white' },
+            'Sem V': { bg: 'bg-amber-100/90', border: 'border-amber-400', text: 'text-amber-950', badge: 'bg-amber-600 text-white' },
+            'Sem VII': { bg: 'bg-purple-100/90', border: 'border-purple-400', text: 'text-purple-950', badge: 'bg-purple-600 text-white' }
+        };
+
+        const roomHeaders = ['IF-1', 'IF-2', 'IF-3', 'Lab 1', 'Lab 2', 'Lab 3', 'Masjid', 'ONLINE'];
+
+        // MASTER SCHEDULE DATA
+        const masterScheduleData = [
+          {
+            hari: "SENIN",
+            timeSlots: ["08.00-08.40", "08.40-09.20", "09.20 - 10.00", "10.00 - 10.40", "10.40 - 11.20", "11.20-12.00", "12.00-13.00", "13.00-13.40", "13.40-14.20", "14.20-15.00", "15.00-15.40", "15.40-16.20", "16.20-17.00"],
+            mergedBlocks: [
+              { startSlot: 0, rowspan: 2, room: "IF-1", sem: "Sem 1", title: "Bahasa Indonesia", kelas: "Kelas Info 1", dosen: "Iwan Irawan, S.Pd., M.Pd" },
+              { startSlot: 0, rowspan: 2, room: "IF-2", sem: "Sem 1", title: "Pancasila", kelas: "Kelas Info 2", dosen: "Bakri la Suhu, S.Ip. MA" },
+              { startSlot: 0, rowspan: 2, room: "IF-3", sem: "Sem 1", title: "Kalkulus", kelas: "Kelas Info 3", dosen: "Din Senin, M.Si" },
+              { startSlot: 0, rowspan: 3, room: "Lab 1", sem: "Sem V", title: "Machine Learning", kelas: "Kelas SI-1", dosen: "Gamaria Mandar, M.Kom" },
+              { startSlot: 0, rowspan: 3, room: "Lab 2", sem: "Sem 3", title: "Sistem Basis Data", kelas: "Kelas Info 1", dosen: "Fahrizal Halim, M.Kom" },
+              { startSlot: 0, rowspan: 3, room: "Lab 3", sem: "Sem 3", title: "P Jaringan & Keamanan Informasi", kelas: "Kelas Info Transisi 2", dosen: "M Ihwan Elyas, M.Kom" },
+              { startSlot: 0, rowspan: 2, room: "Masjid", sem: "Sem 1", title: "AIK-1", kelas: "Kelas Info 4", dosen: "Hindra Syarifuddin, M.Ag" },
+              { startSlot: 2, rowspan: 2, room: "IF-1", sem: "Sem 1", title: "Pend Anti Korupsi", kelas: "Kelas Info 1", dosen: "Dosen Pengampu" },
+              { startSlot: 2, rowspan: 2, room: "IF-2", sem: "Sem 1", title: "Bahasa Indonesia", kelas: "Kelas Info 2", dosen: "Iwan Irawan, S.Pd., M.Pd" },
+              { startSlot: 2, rowspan: 2, room: "IF-3", sem: "Sem 1", title: "Kalkulus", kelas: "Kelas Info 4", dosen: "Din Senin, M.Si" },
+              { startSlot: 2, rowspan: 2, room: "Masjid", sem: "Sem 1", title: "AIK-1", kelas: "Kelas Info 3", dosen: "Hindra Syarifuddin, M.Ag" },
+              { startSlot: 3, rowspan: 3, room: "Lab 1", sem: "Sem V", title: "Machine Learning", kelas: "Kelas SI-2", dosen: "Gamaria Mandar, M.Kom" },
+              { startSlot: 3, rowspan: 3, room: "Lab 2", sem: "Sem 3", title: "Sistem Basis Data", kelas: "Kelas Info 2", dosen: "Fahrizal Halim, M.Kom" },
+              { startSlot: 3, rowspan: 3, room: "Lab 3", sem: "Sem 3", title: "P Jaringan & Keamanan Informasi", kelas: "Kelas Info Transisi 1", dosen: "M Ihwan Elyas, M.Kom" },
+              { startSlot: 4, rowspan: 2, room: "IF-1", sem: "Sem 1", title: "Pancasila", kelas: "Kelas Info 1", dosen: "Bakri la Suhu, S.Ip. MA" },
+              { startSlot: 4, rowspan: 2, room: "IF-2", sem: "Sem 1", title: "Pend Anti Korupsi", kelas: "Kelas Info 2", dosen: "Dosen Pengampu" },
+              { startSlot: 4, rowspan: 2, room: "IF-3", sem: "Sem 1", title: "P Teknologi Informasi", kelas: "Kelas Info 4", dosen: "Sahriar Hamzah, MT" },
+              { startSlot: 6, rowspan: 1, room: "ISOMA" },
+              { startSlot: 7, rowspan: 3, room: "IF-1", sem: "Sem VII", title: "Forensik Digital", kelas: "Kelas SI-1", dosen: "A Haris Muhammad, M.Kom" },
+              { startSlot: 7, rowspan: 2, room: "IF-2", sem: "Sem V", title: "T Bahasa Automata", kelas: "Kelas SI-1", dosen: "Adelina Ibrahim, M.Eng" },
+              { startSlot: 7, rowspan: 2, room: "IF-3", sem: "Sem V", title: "M Penulisan Ilmiah", kelas: "Kelas INFRA 2", dosen: "Sahriar Hamzah, MT" },
+              { startSlot: 7, rowspan: 3, room: "Lab 1", sem: "Sem 3", title: "P Berorientasi Objek", kelas: "Kelas Info 3", dosen: "Junaidi Noh, MT" },
+              { startSlot: 7, rowspan: 3, room: "Lab 2", sem: "Sem 3", title: "Desain Web", kelas: "Kelas Info 4", dosen: "Muh Reza, M.Kom" },
+              { startSlot: 7, rowspan: 3, room: "Lab 3", sem: "Sem V", title: "Jaringan Komputer 2", kelas: "Kelas INFRA 1", dosen: "Erwin Gunawan, M.T" },
+              { startSlot: 9, rowspan: 2, room: "IF-2", sem: "Sem V", title: "T Bahasa Automata", kelas: "Kelas SI-2", dosen: "Adelina Ibrahim, M.Eng" },
+              { startSlot: 10, rowspan: 3, room: "IF-1", sem: "Sem VII", title: "Forensik Digital", kelas: "Kelas SI-2", dosen: "A Haris Muhammad, M.Kom" },
+              { startSlot: 10, rowspan: 2, room: "IF-3", sem: "Sem V", title: "M Penulisan Ilmiah", kelas: "Kelas INFRA 1", dosen: "Sahriar Hamzah, MT" },
+              { startSlot: 10, rowspan: 3, room: "Lab 1", sem: "Sem 3", title: "P Berorientasi Objek", kelas: "Kelas Info 4", dosen: "Junaidi Noh, MT" },
+              { startSlot: 10, rowspan: 3, room: "Lab 2", sem: "Sem 3", title: "Desain Web", kelas: "Kelas Info 3", dosen: "Muh Reza, M.Kom" },
+              { startSlot: 10, rowspan: 3, room: "Lab 3", sem: "Sem V", title: "Jaringan Komputer 2", kelas: "Kelas INFRA 2", dosen: "Erwin Gunawan, M.T" }
+            ]
+          },
+          {
+            hari: "SELASA",
+            timeSlots: ["08.00-08.40", "08.40-09.20", "09.20 - 10.00", "10.00 - 10.40", "10.40 - 11.20", "11.20-12.00", "12.00-13.00", "13.00-13.40", "13.40-14.20", "14.20-15.00", "15.00-15.40", "15.40-16.20", "16.20-17.00"],
+            mergedBlocks: [
+              { startSlot: 0, rowspan: 2, room: "IF-1", sem: "Sem 1", title: "Bahasa Indonesia", kelas: "Kelas Info 3", dosen: "Iwan Irawan, S.Pd., M.Pd" },
+              { startSlot: 0, rowspan: 2, room: "IF-2", sem: "Sem 1", title: "Pancasila", kelas: "Kelas Info 4", dosen: "Bakri la Suhu, S.Ip. MA" },
+              { startSlot: 0, rowspan: 2, room: "IF-3", sem: "Sem 1", title: "Kalkulus", kelas: "Kelas Info 1", dosen: "Din Senin, M.Si" },
+              { startSlot: 0, rowspan: 3, room: "Lab 1", sem: "Sem VII", title: "Machine Learning", kelas: "Kelas SI- Transisi 1", dosen: "Gamaria Mandar, M.Kom" },
+              { startSlot: 0, rowspan: 3, room: "Lab 2", sem: "Sem 3", title: "Sistem Basis Data", kelas: "Kelas Info 3", dosen: "Fahrizal Halim, M.Kom" },
+              { startSlot: 0, rowspan: 3, room: "Lab 3", sem: "Sem 3", title: "P Jaringan & Keamanan Informasi", kelas: "Kelas Info Transisi 4", dosen: "M Ihwan Elyas, M.Kom" },
+              { startSlot: 0, rowspan: 2, room: "Masjid", sem: "Sem 1", title: "AIK-1", kelas: "Kelas Info 2", dosen: "Hindra Syarifuddin, M.Ag" },
+              { startSlot: 2, rowspan: 2, room: "IF-1", sem: "Sem 1", title: "Pend Anti Korupsi", kelas: "Kelas Info 3", dosen: "Dosen Pengampu" },
+              { startSlot: 2, rowspan: 2, room: "IF-2", sem: "Sem 1", title: "Bahasa Indonesia", kelas: "Kelas Info 4", dosen: "Iwan Irawan, S.Pd., M.Pd" },
+              { startSlot: 2, rowspan: 2, room: "IF-3", sem: "Sem 1", title: "Kalkulus", kelas: "Kelas Info 2", dosen: "Din Senin, M.Si" },
+              { startSlot: 2, rowspan: 2, room: "Masjid", sem: "Sem 1", title: "AIK-1", kelas: "Kelas Info 1", dosen: "Hindra Syarifuddin, M.Ag" },
+              { startSlot: 3, rowspan: 3, room: "Lab 1", sem: "Sem VII", title: "Machine Learning", kelas: "Kelas SI-Transisi 2", dosen: "Gamaria Mandar, M.Kom" },
+              { startSlot: 3, rowspan: 3, room: "Lab 2", sem: "Sem 3", title: "Sistem Basis Data", kelas: "Kelas Info 4", dosen: "Fahrizal Halim, M.Kom" },
+              { startSlot: 3, rowspan: 3, room: "Lab 3", sem: "Sem 3", title: "P Jaringan & Keamanan Informasi", kelas: "Kelas Info Transisi 3", dosen: "M Ihwan Elyas, M.Kom" },
+              { startSlot: 4, rowspan: 2, room: "IF-1", sem: "Sem 1", title: "Pancasila", kelas: "Kelas Info 3", dosen: "Bakri la Suhu, S.Ip. MA" },
+              { startSlot: 4, rowspan: 2, room: "IF-2", sem: "Sem 1", title: "Pend Anti Korupsi", kelas: "Kelas Info 4", dosen: "Dosen Pengampu" },
+              { startSlot: 4, rowspan: 2, room: "IF-3", sem: "Sem 1", title: "P Teknologi Informasi", kelas: "Kelas Info 2", dosen: "Sahriar Hamzah, MT" },
+              { startSlot: 6, rowspan: 1, room: "ISOMA" },
+              { startSlot: 7, rowspan: 3, room: "IF-1", sem: "Sem V", title: "T Kriptografi", kelas: "Kelas INFRA 2", dosen: "A Haris Muhammad, M.Kom" },
+              { startSlot: 7, rowspan: 2, room: "IF-2", sem: "Sem V", title: "T Bahasa Automata", kelas: "Kelas INFRA 1", dosen: "Adelina Ibrahim, M.Eng" },
+              { startSlot: 7, rowspan: 3, room: "IF-3", sem: "Sem VII", title: "D Jaringan Wireless", kelas: "Kelas INFRA 1", dosen: "Sahriar Hamzah, MT" },
+              { startSlot: 7, rowspan: 3, room: "Lab 1", sem: "Sem 3", title: "P Berorientasi Objek", kelas: "Kelas Info 1", dosen: "Junaidi Noh, MT" },
+              { startSlot: 7, rowspan: 3, room: "Lab 2", sem: "Sem 3", title: "Desain Web", kelas: "Kelas Info 2", dosen: "Muh Reza, M.Kom" },
+              { startSlot: 7, rowspan: 3, room: "Lab 3", sem: "Sem V", title: "Jaringan Komputer 2", kelas: "Kelas SI-1", dosen: "Erwin Gunawan, M.T" },
+              { startSlot: 10, rowspan: 3, room: "IF-1", sem: "Sem V", title: "T Kriptografi", kelas: "Kelas INFRA 1", dosen: "A Haris Muhammad, M.Kom" },
+              { startSlot: 10, rowspan: 2, room: "IF-2", sem: "Sem V", title: "T Bahasa Automata", kelas: "Kelas INFRA 2", dosen: "Adelina Ibrahim, M.Eng" },
+              { startSlot: 10, rowspan: 3, room: "IF-3", sem: "Sem VII", title: "D Jaringan Wireless", kelas: "Kelas INFRA 2", dosen: "Sahriar Hamzah, MT" },
+              { startSlot: 10, rowspan: 3, room: "Lab 1", sem: "Sem 3", title: "P Berorientasi Objek", kelas: "Kelas Info 2", dosen: "Junaidi Noh, MT" },
+              { startSlot: 10, rowspan: 3, room: "Lab 2", sem: "Sem 3", title: "Desain Web", kelas: "Kelas Info 1", dosen: "Muh Reza, M.Kom" },
+              { startSlot: 10, rowspan: 3, room: "Lab 3", sem: "Sem V", title: "Jaringan Komputer 2", kelas: "Kelas SI-2", dosen: "Erwin Gunawan, M.T" }
+            ]
+          },
+          {
+            hari: "RABU",
+            timeSlots: ["08.00-08.40", "08.40-09.20", "09.20 - 10.00", "10.00 - 10.40", "10.40 - 11.20", "11.20-12.00", "12.00-13.00", "13.00-13.40", "13.40-14.20", "14.20-15.00", "15.00-15.40", "15.40-16.20", "16.20-17.00"],
+            mergedBlocks: [
+              { startSlot: 0, rowspan: 2, room: "IF-1", sem: "Sem 3", title: "Aljabar Liniear & Matriks", kelas: "Kelas Info 1", dosen: "Syahrani Somadayo, M.Si" },
+              { startSlot: 0, rowspan: 2, room: "IF-2", sem: "Sem 3", title: "Kewarganegaraan", kelas: "Kelas Info 2", dosen: "Moh Haji Noh, M.SI" },
+              { startSlot: 0, rowspan: 2, room: "IF-3", sem: "Sem 3", title: "Statistika Informatika", kelas: "Kelas Info 3", dosen: "Maya Rumakat, M.Si" },
+              { startSlot: 0, rowspan: 3, room: "Lab 1", sem: "Sem 1", title: "Dasar Pemrograman", kelas: "Kelas Info 1", dosen: "A Haris Muhammad, M.Kom" },
+              { startSlot: 0, rowspan: 3, room: "Lab 2", sem: "Sem 1", title: "P Aplikasi Komputer", kelas: "Kelas Info 2", dosen: "M Dzikrullah S., M.T" },
+              { startSlot: 0, rowspan: 3, room: "Lab 3", sem: "Sem 1", title: "P Jaringan & Keamanan Informasi", kelas: "Kelas Info 3", dosen: "Erwin Gunawan, M.T" },
+              { startSlot: 0, rowspan: 2, room: "Masjid", sem: "Sem 3", title: "AIK 3", kelas: "Kelas Info 4", dosen: "Dr La Ode I, Lc, M.Pd" },
+              { startSlot: 2, rowspan: 2, room: "IF-1", sem: "Sem 3", title: "Interaksi Manusia & Komputer", kelas: "Kelas Info 1", dosen: "Adelina Ibrahim, M.Eng" },
+              { startSlot: 2, rowspan: 2, room: "IF-2", sem: "Sem 3", title: "Aljabar Liniear & Matriks", kelas: "Kelas Info 2", dosen: "Syahrani Somadayo, M.Si" },
+              { startSlot: 2, rowspan: 2, room: "IF-3", sem: "Sem 3", title: "Statistika Informatika", kelas: "Kelas Info 4", dosen: "Maya Rumakat, M.Si" },
+              { startSlot: 2, rowspan: 2, room: "Masjid", sem: "Sem 3", title: "AIK 3", kelas: "Kelas Info 3", dosen: "Dr La Ode I, Lc, M.Pd" },
+              { startSlot: 3, rowspan: 3, room: "Lab 1", sem: "Sem 1", title: "Dasar Pemrograman", kelas: "Kelas Info 2", dosen: "A Haris Muhammad, M.Kom" },
+              { startSlot: 3, rowspan: 3, room: "Lab 2", sem: "Sem 1", title: "P Aplikasi Komputer", kelas: "Kelas Info 1", dosen: "M Dzikrullah S., M.T" },
+              { startSlot: 3, rowspan: 3, room: "Lab 3", sem: "Sem 1", title: "P Jaringan & Keamanan Informasi", kelas: "Kelas Info 4", dosen: "M Ihwan Elyas, M.Kom" },
+              { startSlot: 4, rowspan: 2, room: "IF-1", sem: "Sem 3", title: "Kewarganegaraan", kelas: "Kelas Info 1", dosen: "Moh Haji Noh, M.SI" },
+              { startSlot: 4, rowspan: 2, room: "IF-2", sem: "Sem 3", title: "Interaksi Manusia & Komputer", kelas: "Kelas Info 2", dosen: "Adelina Ibrahim, M.Eng" },
+              { startSlot: 6, rowspan: 1, room: "ISOMA" },
+              { startSlot: 7, rowspan: 2, room: "IF-1", sem: "Sem V", title: "M Penulisan Ilmiah", kelas: "Kelas SI-1", dosen: "Gamaria Mandar, M.Kom" },
+              { startSlot: 7, rowspan: 2, room: "IF-2", sem: "Sem V", title: "Penjaminan Kualitas Perangkat Lunak", kelas: "Kelas SI-2", dosen: "Junaidi Noh, MT" },
+              { startSlot: 7, rowspan: 2, room: "IF-3", sem: "Sem VII", title: "Technopreneurship & Etika Profesi", kelas: "Kelas SI-2", dosen: "Sakina Sudin, M.Kom" },
+              { startSlot: 7, rowspan: 3, room: "Lab 1", sem: "Sem VII", title: "Pemrograman Game", kelas: "Kelas SI-1", dosen: "Sigit Soijoyo, M.Cs" },
+              { startSlot: 7, rowspan: 3, room: "Lab 2", sem: "Sem VII", title: "Internet Of Things", kelas: "Kelas INFRA 1", dosen: "Agil Assagaf, Kom" },
+              { startSlot: 7, rowspan: 3, room: "Lab 3", sem: "Sem V", title: "Jaringan Nirkabel", kelas: "Kelas INFRA 1", dosen: "Sahriar Hamzah, MT" },
+              { startSlot: 9, rowspan: 2, room: "IF-1", sem: "Sem V", title: "M Penulisan Ilmiah", kelas: "Kelas SI-2", dosen: "Gamaria Mandar, M.Kom" },
+              { startSlot: 9, rowspan: 2, room: "IF-2", sem: "Sem V", title: "Penjaminan Kualitas Perangkat Lunak", kelas: "Kelas SI-1", dosen: "Junaidi Noh, MT" },
+              { startSlot: 10, rowspan: 2, room: "IF-3", sem: "Sem VII", title: "Technopreneurship & Etika Profesi", kelas: "Kelas SI-1", dosen: "Sakina Sudin, M.Kom" },
+              { startSlot: 10, rowspan: 3, room: "Lab 1", sem: "Sem VII", title: "Pemrograman Game", kelas: "Kelas SI-2", dosen: "Sigit Soijoyo, M.Cs" },
+              { startSlot: 10, rowspan: 3, room: "Lab 2", sem: "Sem VII", title: "Internet Of Things", kelas: "Kelas INFRA 2", dosen: "Agil Assagaf, Kom" },
+              { startSlot: 10, rowspan: 3, room: "Lab 3", sem: "Sem V", title: "Jaringan Nirkabel", kelas: "Kelas INFRA 2", dosen: "Sahriar Hamzah, MT" }
+            ]
+          },
+          {
+            hari: "KAMIS",
+            timeSlots: ["08.00-08.40", "08.40-09.20", "09.20 - 10.00", "10.00 - 10.40", "10.40 - 11.20", "11.20-12.00", "12.00-13.00", "13.00-13.40", "13.40-14.20", "14.20-15.00", "15.00-15.40", "15.40-16.20", "16.20-17.00"],
+            mergedBlocks: [
+              { startSlot: 0, rowspan: 2, room: "IF-1", sem: "Sem 3", title: "Aljabar Liniear & Matriks", kelas: "Kelas Info 3", dosen: "Syahrani Somadayo, M.Si" },
+              { startSlot: 0, rowspan: 2, room: "IF-2", sem: "Sem 3", title: "Kewarganegaraan", kelas: "Kelas Info 4", dosen: "Moh Haji Noh, M.SI" },
+              { startSlot: 0, rowspan: 2, room: "IF-3", sem: "Sem 3", title: "Statistika Informatika", kelas: "Kelas Info 1", dosen: "Muzakir H Sultan, M.SI" },
+              { startSlot: 0, rowspan: 3, room: "Lab 1", sem: "Sem 1", title: "Dasar Pemrograman", kelas: "Kelas Info 3", dosen: "A Haris Muhammad, M.Kom" },
+              { startSlot: 0, rowspan: 3, room: "Lab 2", sem: "Sem 1", title: "P Aplikasi Komputer", kelas: "Kelas Info 4", dosen: "M Dzikrullah S., M.T" },
+              { startSlot: 0, rowspan: 3, room: "Lab 3", sem: "Sem 1", title: "P Jaringan & Keamanan Informasi", kelas: "Kelas Info 1", dosen: "Erwin Gunawan, M.T" },
+              { startSlot: 0, rowspan: 2, room: "Masjid", sem: "Sem 3", title: "AIK 3", kelas: "Kelas Info 2", dosen: "Dr La Ode I, Lc, M.Pd" },
+              { startSlot: 2, rowspan: 2, room: "IF-1", sem: "Sem 3", title: "Interaksi Manusia & Komputer", kelas: "Kelas Info 3", dosen: "Adelina Ibrahim, M.Eng" },
+              { startSlot: 2, rowspan: 2, room: "IF-2", sem: "Sem 3", title: "Aljabar Liniear & Matriks", kelas: "Kelas Info 4", dosen: "Syahrani Somadayo, M.Si" },
+              { startSlot: 2, rowspan: 2, room: "IF-3", sem: "Sem 3", title: "Statistika Informatika", kelas: "Kelas Info 2", dosen: "Muzakir H Sultan, M.SI" },
+              { startSlot: 2, rowspan: 2, room: "Masjid", sem: "Sem 3", title: "AIK 3", kelas: "Kelas Info 1", dosen: "Dr La Ode I, Lc, M.Pd" },
+              { startSlot: 3, rowspan: 3, room: "Lab 1", sem: "Sem 1", title: "Dasar Pemrograman", kelas: "Kelas Info 4", dosen: "A Haris Muhammad, M.Kom" },
+              { startSlot: 3, rowspan: 3, room: "Lab 2", sem: "Sem 1", title: "P Aplikasi Komputer", kelas: "Kelas Info 5", dosen: "M Dzikrullah S., M.T" },
+              { startSlot: 3, rowspan: 3, room: "Lab 3", sem: "Sem 1", title: "P Jaringan & Keamanan Informasi", kelas: "Kelas Info 2", dosen: "Erwin Gunawan, M.T" },
+              { startSlot: 4, rowspan: 2, room: "IF-1", sem: "Sem 3", title: "Kewarganegaraan", kelas: "Kelas Info 3", dosen: "Moh Haji Noh, M.SI" },
+              { startSlot: 4, rowspan: 2, room: "IF-2", sem: "Sem 3", title: "Interaksi Manusia & Komputer", kelas: "Kelas Info 4", dosen: "Adelina Ibrahim, M.Eng" },
+              { startSlot: 6, rowspan: 1, room: "ISOMA" },
+              { startSlot: 7, rowspan: 2, room: "IF-1", sem: "Sem VII", title: "Technopreneurship & Etika Profesi", kelas: "Kelas INFRA 2", dosen: "Sakina Sudin, M.Kom" },
+              { startSlot: 7, rowspan: 2, room: "IF-2", sem: "Sem VII", title: "Kecakapan Interpersonal", kelas: "Kelas SI 1", dosen: "Faujia Umasugi, M.Pd.I" },
+              { startSlot: 7, rowspan: 3, room: "IF-3", sem: "Sem VII", title: "Keamanan Sistem & Jaringan", kelas: "Kelas INFRA 1", dosen: "M Ihwan Elyas, M.Kom" },
+              { startSlot: 7, rowspan: 3, room: "Lab 1", sem: "Sem V", title: "Pemrograman Mobile", kelas: "Kelas INFRA 1", dosen: "Sigit Soijoyo, M.Cs" },
+              { startSlot: 7, rowspan: 3, room: "Lab 2", sem: "Sem VII", title: "Computer Vision", kelas: "Kelas SI-1", dosen: "Junaidi Noh, MT" },
+              { startSlot: 7, rowspan: 3, room: "Lab 3", sem: "Sem V", title: "Robotika", kelas: "Kelas INFRA 2", dosen: "Agil Assagaf, Kom" },
+              { startSlot: 7, rowspan: 3, room: "ONLINE", sem: "Sem 3", title: "Struktur Data", kelas: "Kelas Info 1", dosen: "Santosa, M.Cs" },
+              { startSlot: 10, rowspan: 2, room: "IF-1", sem: "Sem VII", title: "Technopreneurship & Etika Profesi", kelas: "Kelas INFRA 1", dosen: "Sakina Sudin, M.Kom" },
+              { startSlot: 10, rowspan: 2, room: "IF-2", sem: "Sem VII", title: "Kecakapan Interpersonal", kelas: "Kelas SI 2", dosen: "Faujia Umasugi, M.Pd.I" },
+              { startSlot: 10, rowspan: 3, room: "IF-3", sem: "Sem VII", title: "Keamanan Sistem & Jaringan", kelas: "Kelas INFRA 2", dosen: "M Ihwan Elyas, M.Kom" },
+              { startSlot: 10, rowspan: 3, room: "Lab 1", sem: "Sem V", title: "Pemrograman Mobile", kelas: "Kelas INFRA 2", dosen: "Sigit Soijoyo, M.Cs" },
+              { startSlot: 10, rowspan: 3, room: "Lab 2", sem: "Sem VII", title: "Computer Vision", kelas: "Kelas SI-2", dosen: "Junaidi Noh, MT" },
+              { startSlot: 10, rowspan: 3, room: "Lab 3", sem: "Sem V", title: "Robotika", kelas: "Kelas INFRA 1", dosen: "Agil Assagaf, Kom" }
+            ]
+          },
+          {
+            hari: "JUMAT",
+            timeSlots: ["08.00-08.40", "08.40-09.20", "09.20 - 10.00", "10.00 - 10.40", "10.40 - 11.20", "11.20-12.00", "12.00-13.40", "13.40-14.20", "14.20-15.00", "15.00-15.40", "15.40-16.20", "16.20-17.00", "17.00-18.00"],
+            mergedBlocks: [
+              { startSlot: 0, rowspan: 2, room: "IF-1", sem: "Sem 1", title: "P Teknologi Informasi", kelas: "Kelas Info 4", dosen: "Sahriar Hamzah, MT" },
+              { startSlot: 0, rowspan: 3, room: "IF-2", sem: "Sem VII", title: "Data Science", kelas: "Kelas SI-2", dosen: "Fahrizal Halim, M.Kom" },
+              { startSlot: 0, rowspan: 2, room: "IF-3", sem: "Sem VII", title: "Kecakapan Interpersonal", kelas: "Kelas INFRA 2", dosen: "Faujia Umasugi, M.Pd.I" },
+              { startSlot: 0, rowspan: 3, room: "Lab 1", sem: "Sem V", title: "Pemrograman Mobile", kelas: "Kelas SI-1", dosen: "Sigit Soijoyo, M.Cs" },
+              { startSlot: 0, rowspan: 3, room: "Lab 2", sem: "Sem V", title: "P Citra Digital", kelas: "Kelas SI-2", dosen: "M Dzikrullah S., M.T" },
+              { startSlot: 0, rowspan: 3, room: "Lab 3", sem: "Sem VII", title: "Robotika", kelas: "Kelas INFRA Transisi 1", dosen: "Agil Assagaf, Kom" },
+              { startSlot: 2, rowspan: 2, room: "IF-1", sem: "Sem 1", title: "P Teknologi Informasi", kelas: "Kelas Info 3", dosen: "Sahriar Hamzah, MT" },
+              { startSlot: 3, rowspan: 3, room: "IF-2", sem: "Sem VII", title: "Data Science", kelas: "Kelas SI-1", dosen: "Fahrizal Halim, M.Kom" },
+              { startSlot: 3, rowspan: 2, room: "IF-3", sem: "Sem VII", title: "Kecakapan Interpersonal", kelas: "Kelas INFRA 1", dosen: "Faujia Umasugi, M.Pd.I" },
+              { startSlot: 3, rowspan: 3, room: "Lab 1", sem: "Sem V", title: "Pemrograman Mobile", kelas: "Kelas SI-2", dosen: "Sigit Soijoyo, M.Cs" },
+              { startSlot: 3, rowspan: 3, room: "Lab 2", sem: "Sem V", title: "P Citra Digital", kelas: "Kelas SI-1", dosen: "M Dzikrullah S., M.T" },
+              { startSlot: 3, rowspan: 3, room: "Lab 3", sem: "Sem VII", title: "Robotika", kelas: "Kelas INFRA Transisi 2", dosen: "Agil Assagaf, Kom" },
+              { startSlot: 6, rowspan: 1, room: "ISOMA" },
+              { startSlot: 7, rowspan: 3, room: "IF-3", sem: "Sem VII", title: "Forensik Digital", kelas: "Kelas INFRA 2", dosen: "M Ihwan Elyas, M.Kom" },
+              { startSlot: 7, rowspan: 3, room: "Lab 1", sem: "Sem VII", title: "Sistem Informasi Geografis", kelas: "Kelas SI-1", dosen: "Santosa, M.Cs" },
+              { startSlot: 7, rowspan: 3, room: "Lab 3", sem: "Sem VII", title: "Cloud Computing", kelas: "Kelas INFRA 1", dosen: "Erwin Gunawan, M.T" },
+              { startSlot: 10, rowspan: 3, room: "IF-3", sem: "Sem VII", title: "Forensik Digital", kelas: "Kelas INFRA 1", dosen: "M Ihwan Elyas, M.Kom" },
+              { startSlot: 10, rowspan: 3, room: "Lab 1", sem: "Sem VII", title: "Sistem Informasi Geografis", kelas: "Kelas SI-2", dosen: "Santosa, M.Cs" },
+              { startSlot: 10, rowspan: 3, room: "Lab 3", sem: "Sem VII", title: "Cloud Computing", kelas: "Kelas INFRA 2", dosen: "Erwin Gunawan, M.T" }
+            ]
+          },
+          {
+            hari: "SABTU",
+            timeSlots: ["08.00-08.40", "08.40-09.20", "09.20 - 10.00", "10.00 - 10.40", "10.40 - 11.20", "11.20-12.00", "12.00-13.00", "13.00-13.40", "13.40-14.20", "14.20-15.00", "15.00-15.40", "15.40-16.20", "16.20-17.00"],
+            mergedBlocks: [
+              { startSlot: 0, rowspan: 2, room: "IF-1", sem: "Sem V", title: "Tata Kelola TI", kelas: "Kelas Info 1 & 2", dosen: "Salim Albaar, M.Kom" },
+              { startSlot: 2, rowspan: 2, room: "IF-1", sem: "Sem V", title: "Tata Kelola TI", kelas: "Kelas Info 3, 4, 5", dosen: "Salim Albaar, M.Kom" },
+              { startSlot: 6, rowspan: 1, room: "ISOMA" }
+            ]
+          }
+        ];
+
+        // POPULATE DROPDOWN DOSEN SECARA OTOMATIS
+        function initDosenDropdown() {
+            const dosenSelect = document.getElementById('schDosenFilter');
+            const allDosens = new Set();
+
+            masterScheduleData.forEach(day => {
+                day.mergedBlocks.forEach(b => {
+                    if (b.dosen && b.dosen.trim() !== '' && b.dosen !== 'Dosen Pengampu') {
+                        allDosens.add(b.dosen.trim());
+                    }
+                });
+            });
+
+            Array.from(allDosens).sort().forEach(dosen => {
+                const opt = document.createElement('option');
+                opt.value = dosen;
+                opt.textContent = dosen;
+                dosenSelect.appendChild(opt);
+            });
+        }
+
+        // RENDER GRID JADWAL
+        function renderFullSchedule() {
+            const container = document.getElementById('scheduleContainer');
+            container.innerHTML = '';
+
+            masterScheduleData.forEach(day => {
+                const numSlots = day.timeSlots.length;
+                const numRooms = roomHeaders.length;
+
+                const grid = Array.from({ length: numSlots }, () => Array(numRooms).fill(null));
+
+                day.mergedBlocks.forEach(block => {
+                    if (block.room === 'ISOMA') {
+                        for (let r = 0; r < numRooms; r++) {
+                            grid[block.startSlot][r] = { isoma: true };
+                        }
+                    } else {
+                        const roomIdx = roomHeaders.indexOf(block.room);
+                        if (roomIdx !== -1) {
+                            grid[block.startSlot][roomIdx] = { ...block, isOrigin: true };
+                            for (let s = 1; s < block.rowspan; s++) {
+                                if (block.startSlot + s < numSlots) {
+                                    grid[block.startSlot + s][roomIdx] = { covered: true };
+                                }
+                            }
+                        }
+                    }
+                });
+
+                let tableHtml = `
+                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                        <div class="bg-slate-900 text-white px-6 py-4 font-bold text-sm flex justify-between items-center">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-calendar-day text-brand-400"></i> HARI: ${day.hari}</span>
+                            <span class="text-xs text-slate-400 font-normal"></span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                                    <tr>
+                                        <th class="p-3 border-r border-slate-200 w-28 text-center bg-slate-200/60">Jam / Sesi</th>`;
+
+                roomHeaders.forEach(r => {
+                    tableHtml += `<th class="p-3 border-r border-slate-200 text-center min-w-[140px]">${r}</th>`;
+                });
+
+                tableHtml += `</tr></thead><tbody class="divide-y divide-slate-200">`;
+
+                for (let s = 0; s < numSlots; s++) {
+                    const timeLabel = day.timeSlots[s];
+                    tableHtml += `<tr><td class="p-2 font-mono font-bold text-center bg-slate-50 border-r border-slate-200 text-slate-700">${timeLabel}</td>`;
+
+                    if (grid[s][0] && grid[s][0].isoma) {
+                        tableHtml += `<td colspan="${numRooms}" class="p-2.5 text-center bg-slate-200/90 font-bold text-slate-700 uppercase tracking-widest text-[11px] border-y border-slate-300">--- ISOMA (ISTIRAHAT, SHOLAT, MAKAN) ---</td></tr>`;
+                        continue;
+                    }
+
+                    for (let r = 0; r < numRooms; r++) {
+                        const cell = grid[s][r];
+
+                        if (cell && cell.covered) {
+                            continue;
+                        }
+
+                        if (cell && cell.isOrigin) {
+                            const style = semColorStyle[cell.sem] || { bg: 'bg-slate-100', border: 'border-slate-300', text: 'text-slate-900', badge: 'bg-slate-700 text-white' };
+                            const durationText = cell.rowspan === 2 ? '2 Sesi (80 Menit)' : cell.rowspan === 3 ? '3 Sesi (120 Menit)' : `${cell.rowspan * 40} Menit`;
+
+                            tableHtml += `
+                                <td rowspan="${cell.rowspan}" class="p-2 border-r border-slate-200 align-top ${style.bg}">
+                                    <div class="schedule-card h-full border ${style.border} p-3 rounded-xl flex flex-col justify-between shadow-xs"
+                                         data-sem="${cell.sem}"
+                                         data-dosen="${cell.dosen}"
+                                         data-title="${cell.title.toLowerCase()}"
+                                         data-kelas="${cell.kelas.toLowerCase()}">
+                                        <div class="space-y-1.5">
+                                            <div class="flex items-center justify-between gap-1">
+                                                <span class="text-[9px] font-extrabold px-2 py-0.5 rounded ${style.badge}">${cell.sem}</span>
+                                                <span class="text-[9px] font-bold text-slate-500 bg-white/70 px-1.5 py-0.5 rounded border border-slate-200"><i class="fa-regular fa-clock mr-1"></i>${durationText}</span>
+                                            </div>
+                                            <div class="font-extrabold ${style.text} text-xs leading-snug">${cell.title}</div>
+                                            <div class="text-[11px] text-slate-700 font-bold"><i class="fa-solid fa-users text-slate-400 mr-1"></i>${cell.kelas}</div>
+                                        </div>
+                                        <div class="text-[10px] text-slate-600 font-semibold italic border-t border-slate-300/60 pt-1.5 mt-2 flex items-center gap-1">
+                                            <i class="fa-solid fa-user-tie text-slate-400"></i> ${cell.dosen}
+                                        </div>
+                                    </div>
+                                </td>
+                            `;
+                        } else {
+                            tableHtml += `<td class="p-2 border-r border-slate-200 text-center text-slate-300 font-light">-</td>`;
+                        }
+                    }
+
+                    tableHtml += `</tr>`;
+                }
+
+                tableHtml += `</tbody></table></div></div>`;
+                container.innerHTML += tableHtml;
+            });
+        }
+
+        // LOGIKA EFEK SOROT / DIM / BURAM UNTUK PENCARIAN
+        function applyScheduleFilter() {
+            const searchVal = document.getElementById('schSearchInput').value.toLowerCase().trim();
+            const semVal = document.getElementById('schSemesterFilter').value;
+            const dosenVal = document.getElementById('schDosenFilter').value;
+
+            const isFilterActive = (searchVal !== '') || (semVal !== 'all') || (dosenVal !== 'all');
+            const allCards = document.querySelectorAll('.schedule-card');
+
+            allCards.forEach(card => {
+                const cSem = card.getAttribute('data-sem');
+                const cDosen = card.getAttribute('data-dosen');
+                const cTitle = card.getAttribute('data-title');
+                const cKelas = card.getAttribute('data-kelas');
+
+                const matchesSearch = (searchVal === '') || cTitle.includes(searchVal) || cKelas.includes(searchVal);
+                const matchesSem = (semVal === 'all') || (cSem === semVal);
+                const matchesDosen = (dosenVal === 'all') || (cDosen === dosenVal);
+
+                if (isFilterActive) {
+                    if (matchesSearch && matchesSem && matchesDosen) {
+                        card.classList.remove('dimmed');
+                        card.classList.add('highlighted');
+                    } else {
+                        card.classList.remove('highlighted');
+                        card.classList.add('dimmed');
+                    }
+                } else {
+                    card.classList.remove('dimmed', 'highlighted');
+                }
+            });
+        }
+
+        // RESET FILTER BUTTON
+        document.getElementById('btnResetFilter').addEventListener('click', () => {
+            document.getElementById('schSearchInput').value = '';
+            document.getElementById('schSemesterFilter').value = 'all';
+            document.getElementById('schDosenFilter').value = 'all';
+            applyScheduleFilter();
+        });
+
+        // EVENT LISTENERS
+        document.getElementById('schSearchInput').addEventListener('input', applyScheduleFilter);
+        document.getElementById('schSemesterFilter').addEventListener('change', applyScheduleFilter);
+        document.getElementById('schDosenFilter').addEventListener('change', applyScheduleFilter);
+
+        // INITIALIZATION
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFullSchedule();
+            initDosenDropdown();
+        });
+    </script>
+</body>
+</html>
