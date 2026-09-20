@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Kontrol Pengingat Dosen | Informatika UMMU</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>body{font-family:'Plus Jakarta Sans',sans-serif}.sent{border-color:#22c55e!important;background:#f0fdf4!important}</style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen">
+  <iframe id="scheduleSource" src="jadwal.html" class="hidden" title="Sumber jadwal"></iframe>
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <header class="bg-gradient-to-r from-emerald-800 to-emerald-600 text-white rounded-3xl p-7 shadow-xl mb-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-widest text-emerald-100"><i class="fa-brands fa-whatsapp mr-1"></i> Halaman Pengelola</p>
+          <h1 class="text-2xl sm:text-3xl font-extrabold mt-1">Pengingat WhatsApp Dosen</h1>
+          <p class="text-sm text-emerald-100 mt-2">Pilih hari, isi nomor dosen, periksa pesan, lalu buka WhatsApp Web.</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button data-day="today" class="day-btn bg-white text-emerald-800 px-4 py-2 rounded-xl text-xs font-bold">Hari Ini</button>
+          <button data-day="tomorrow" class="day-btn bg-emerald-900/60 px-4 py-2 rounded-xl text-xs font-bold">Besok</button>
+          <select id="daySelect" class="bg-emerald-900/70 border border-emerald-300/40 rounded-xl px-3 py-2 text-xs font-bold"></select>
+        </div>
+      </div>
+    </header>
+
+    <section class="bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 shadow-sm">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+        <div><h2 id="selectedDay" class="font-extrabold text-lg">Memuat jadwal…</h2><p id="summary" class="text-xs text-slate-500 mt-1"></p></div>
+        <button id="resetStatus" class="border border-slate-200 hover:bg-slate-50 rounded-xl px-3 py-2 text-xs font-bold text-slate-600"><i class="fa-solid fa-rotate-left mr-1"></i> Reset Status Kirim</button>
+      </div>
+      <div id="reminderList" class="grid grid-cols-1 lg:grid-cols-2 gap-4"></div>
+    </section>
+
+    <p class="text-center text-[11px] text-slate-400 mt-6">Nomor dan status pengiriman disimpan hanya pada browser perangkat ini.</p>
+  </main>
+
+  <script>
+    const PHONE_KEY = 'infolite_dosen_wa_v1';
+    const SENT_KEY = 'infolite_wa_sent_v1';
+    let source;
+    let selectedDay = '';
+    const load = key => { try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch { return {}; } };
+    const save = (key, data) => localStorage.setItem(key, JSON.stringify(data));
+    const esc = value => String(value || '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'})[c]);
+    const phone = value => { let n=String(value||'').replace(/\D/g,''); if(n.startsWith('0'))n='62'+n.slice(1); if(n.startsWith('8'))n='62'+n; return n; };
+
+    function render() {
+      const groups = source.getLecturerGroups(selectedDay);
+      const phones = load(PHONE_KEY);
+      const sent = load(SENT_KEY);
+      const label = selectedDay.charAt(0) + selectedDay.slice(1).toLowerCase();
+      document.getElementById('selectedDay').textContent = `Jadwal ${label}`;
+      document.getElementById('summary').textContent = groups.length ? `${groups.length} dosen • ${groups.filter(g => sent[selectedDay+'|'+g.dosen]).length} sudah dikirim` : 'Tidak ada jadwal perkuliahan.';
+      document.getElementById('reminderList').innerHTML = groups.length ? groups.map((group,index) => {
+        const done = Boolean(sent[selectedDay+'|'+group.dosen]);
+        const rows = group.schedules.map(item => `<li><b>${esc(item.waktu)}</b> — ${esc(item.title)}<br><span class="text-slate-500">${esc(item.kelas)} | ${esc(item.room)}</span></li>`).join('');
+        return `<article class="card border ${done?'sent':'border-slate-200'} rounded-2xl p-4" data-index="${index}">
+          <div class="flex justify-between gap-3 mb-3"><div><h3 class="font-extrabold text-sm">${esc(group.dosen)}</h3><p class="text-[11px] text-slate-500">${group.schedules.length} jadwal</p></div><span class="text-[10px] font-bold px-2 py-1 h-fit rounded-full ${done?'bg-green-100 text-green-700':'bg-amber-100 text-amber-700'}">${done?'Sudah dikirim':'Belum dikirim'}</span></div>
+          <ol class="list-decimal ml-5 space-y-2 text-xs mb-4">${rows}</ol>
+          <label class="block text-[11px] font-bold text-slate-600 mb-1">Nomor WhatsApp</label>
+          <input class="wa-phone w-full border border-slate-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none" value="${esc(phones[group.dosen]||'')}" placeholder="Contoh: 081234567890">
+          <div class="grid grid-cols-2 gap-2 mt-3"><button class="preview border border-slate-300 rounded-xl py-2 text-xs font-bold"><i class="fa-regular fa-eye mr-1"></i> Preview</button><button class="send bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl py-2 text-xs font-bold"><i class="fa-brands fa-whatsapp mr-1"></i> Kirim WA</button></div>
+        </article>`;
+      }).join('') : '<div class="lg:col-span-2 text-center p-10 bg-slate-50 rounded-2xl text-sm text-slate-500"><i class="fa-regular fa-calendar-xmark text-3xl block mb-3"></i>Tidak ada pesan yang perlu disiapkan.</div>';
+    }
+
+    document.getElementById('scheduleSource').addEventListener('load', () => {
+      source = document.getElementById('scheduleSource').contentWindow;
+      const select = document.getElementById('daySelect');
+      const scheduleDays = source.getScheduleDays();
+      scheduleDays.forEach(day => select.add(new Option(day.charAt(0)+day.slice(1).toLowerCase(),day)));
+      const today = source.weekdayToScheduleDay(source.getWitWeekday());
+      selectedDay = scheduleDays.includes(today) ? today : scheduleDays[0];
+      select.value = selectedDay; render();
+      select.addEventListener('change',e=>{selectedDay=e.target.value;render();});
+      document.querySelectorAll('.day-btn').forEach(btn=>btn.addEventListener('click',()=>{selectedDay=source.weekdayToScheduleDay(source.getWitWeekday(btn.dataset.day==='tomorrow'?1:0));if(scheduleDays.includes(selectedDay))select.value=selectedDay;render();}));
+    });
+
+    document.getElementById('resetStatus').addEventListener('click',()=>{const sent=load(SENT_KEY);Object.keys(sent).filter(k=>k.startsWith(selectedDay+'|')).forEach(k=>delete sent[k]);save(SENT_KEY,sent);render();});
+    document.getElementById('reminderList').addEventListener('change',e=>{if(!e.target.classList.contains('wa-phone'))return;const group=source.getLecturerGroups(selectedDay)[Number(e.target.closest('.card').dataset.index)];const phones=load(PHONE_KEY);phones[group.dosen]=e.target.value.trim();save(PHONE_KEY,phones);});
+    document.getElementById('reminderList').addEventListener('click',e=>{
+      const card=e.target.closest('.card'); if(!card)return;
+      const group=source.getLecturerGroups(selectedDay)[Number(card.dataset.index)];
+      const message=source.buildWaMessage(group.dosen,group.schedules,selectedDay);
+      if(e.target.closest('.preview')){alert(message);return;}
+      if(e.target.closest('.send')){const input=card.querySelector('.wa-phone');const number=phone(input.value);if(number.length<10){alert('Masukkan nomor WhatsApp yang valid.');input.focus();return;}const phones=load(PHONE_KEY);phones[group.dosen]=input.value.trim();save(PHONE_KEY,phones);const sent=load(SENT_KEY);sent[selectedDay+'|'+group.dosen]=new Date().toISOString();save(SENT_KEY,sent);window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`,'_blank','noopener');render();}
+    });
+  </script>
+</body>
+</html>
