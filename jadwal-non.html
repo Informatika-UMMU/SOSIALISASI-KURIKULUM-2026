@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Jadwal Non-Reguler | Informatika UMMU</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:'Plus Jakarta Sans',sans-serif}.tab.active,.track.active{background:#1d4ed8;color:#fff;box-shadow:0 8px 20px #1d4ed833}.package-card{transition:.2s}.package-card:hover{transform:translateY(-2px)}
+    @media print{.no-print{display:none!important}body{background:#fff}.shadow-sm,.shadow-xl{box-shadow:none!important}main{max-width:none!important;padding:0!important}}
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen">
+  <nav class="no-print sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-blue-700 text-white grid place-items-center"><i class="fa-solid fa-user-clock"></i></div><div><p class="font-extrabold leading-tight">Informatika UMMU</p><p class="text-[11px] text-slate-500">Kelas Non-Reguler</p></div></div>
+      <div class="hidden flex gap-2">
+            <button id="editBtn" class="bg-blue-50 text-blue-700 border border-blue-200 px-4 py-2 rounded-xl text-xs font-bold">
+              <i class="fa-solid fa-pen-to-square mr-1"></i>
+            </button>
+
+            <button onclick="window.print()" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold">
+              <i class="fa-solid fa-print mr-1"></i>Cetak
+            </button>
+          </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-4 py-8 space-y-7">
+    <header class="bg-gradient-to-br from-blue-950 via-blue-800 to-slate-900 text-white rounded-3xl p-7 sm:p-10 shadow-xl relative overflow-hidden">
+      <div class="absolute -right-20 -top-28 w-80 h-80 rounded-full bg-cyan-300/10"></div>
+      <div class="relative max-w-3xl">
+        <span class="inline-flex items-center gap-2 bg-amber-400/15 border border-amber-300/30 text-amber-200 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider"><i class="fa-solid fa-calendar-check"></i> Setiap Hari Sabtu</span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold mt-4">Jadwal Perkuliahan Non-Reguler</h1>
+        <p class="text-blue-100 mt-2 text-sm leading-relaxed">Semester 1 dan 3: Paket A teori, Paket B praktikum. Semester 5 dan 7: Paket A praktikum, Paket B teori. Praktikum dipilih sesuai kebutuhan.</p>
+        <div class="mt-5 flex flex-wrap gap-2 text-xs font-semibold"><span class="bg-white/10 px-3 py-2 rounded-xl"><i class="fa-regular fa-calendar mr-1"></i> Mulai 26 September 2026</span><span class="bg-white/10 px-3 py-2 rounded-xl"><i class="fa-regular fa-clock mr-1"></i> Teori hingga 16.30 · Praktikum menyesuaikan</span><span class="bg-white/10 px-3 py-2 rounded-xl"><i class="fa-solid fa-repeat mr-1"></i> Rotasi Paket A–B</span></div>
+      </div>
+    </header>
+
+    <section id="nextSession" class="bg-white border border-blue-200 rounded-3xl p-5 sm:p-6 shadow-sm"></section>
+
+    <section class="space-y-4">
+      <div><h2 class="text-xl font-extrabold text-slate-900">Pilih Semester</h2><p class="text-xs text-slate-500 mt-1">Pilih semester untuk melihat mata kuliah dan dosen pengampu.</p></div>
+      <div id="semesterTabs" class="no-print grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+      <div id="trackTabs" class="no-print hidden flex-wrap gap-3"></div>
+      <div id="semesterContent"></div>
+    </section>
+
+    <section class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+      <div class="p-6 border-b border-slate-200"><h2 class="font-extrabold text-xl">Kalender 12 Minggu</h2><p class="text-xs text-slate-500 mt-1">Paket mingguan berlaku serentak untuk Semester 1, 3, 5, dan 7.</p></div>
+      <div class="overflow-x-auto"><table class="w-full min-w-[480px] text-sm"><thead class="bg-slate-900 text-white text-xs uppercase"><tr><th class="p-4 text-center">Minggu</th><th class="p-4 text-left">Tanggal</th><th class="p-4 text-center">Paket</th></tr></thead><tbody id="calendarBody" class="divide-y divide-slate-200"></tbody></table></div>
+    </section>
+  </main>
+
+  <div id="editorModal" class="fixed inset-0 z-50 hidden bg-slate-950/60 p-4 overflow-y-auto">
+    <div class="max-w-4xl mx-auto my-6 bg-white rounded-3xl shadow-2xl overflow-hidden">
+      <div class="bg-slate-900 text-white p-5 flex justify-between items-center"><div><p class="text-[10px] uppercase text-blue-300 font-bold">Form Pengaturan</p><h2 id="editorTitle" class="font-extrabold text-lg"></h2></div><button id="closeEditor" class="w-9 h-9 rounded-full bg-white/10"><i class="fa-solid fa-xmark"></i></button></div>
+      <form id="scheduleForm" class="p-5"><div id="editorFields" class="grid md:grid-cols-2 gap-4"></div><div class="mt-6 flex flex-wrap justify-between gap-3"><button type="button" id="resetData" class="text-red-600 border border-red-200 px-4 py-2.5 rounded-xl text-xs font-bold">Kembalikan Data Awal</button><div class="flex gap-2"><button type="button" id="cancelEditor" class="border border-slate-300 px-4 py-2.5 rounded-xl text-xs font-bold">Batal</button><button class="bg-blue-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold"><i class="fa-solid fa-floppy-disk mr-1"></i>Simpan Jadwal</button></div></div></form>
+    </div>
+  </div>
+
+  <footer class="py-8 text-center text-xs text-slate-400">© 2026 Program Studi Teknik Informatika — Universitas Muhammadiyah Maluku Utara</footer>
+
+  <script>
+    const START_DATE='2026-09-26T00:00:00+09:00';
+    const slotsA=['08.00–09.30','09.30–11.00','11.00–12.30','13.30–15.00','15.00–16.30'];
+    const slotsB=['08.00–10.00','10.00–12.00','13.00–15.00','15.00–17.00'];
+    const durationsA=[90,90,90,90,90];
+    const durationsB=[120,120,120,120];
+    const semesters={
+      '1':[
+        {title:'Kalkulus',lecturer:'Din Senin, M.Si'},
+        {title:'Pancasila',lecturer:'Bakri La Suhu, S.IP., M.A.'},
+        {title:'Bahasa Indonesia',lecturer:'Iwan Irawan, S.Pd., M.Pd'},
+        {title:'Pendidikan Anti Korupsi',lecturer:'Dr. Aji Deni, S.Pd., M.Si'},
+        {title:'AIK 1',lecturer:'Hindra Syarifuddin, M.Ag'},
+        
+        {title:'Pengantar Teknologi Informasi',lecturer:'Sahriar Hamzah, M.T'},
+        {title:'Dasar Pemrograman',lecturer:'A. Haris Muhammad, M.Kom'},
+        {title:'Pengantar Aplikasi Komputer',lecturer:'M. Dzikrullah S., M.T'}
+      ],
+      '3':[
+        {title:'Aljabar Linear & Matriks',lecturer:'Syahrani Somadayo, M.Si'},
+        {title:'Kewarganegaraan',lecturer:'Moh. Haji Noh, M.Si'},
+        {title:'Statistika Informatika',lecturer:'Maya Rumakat, M.Si'},
+        {title:'AIK 3',lecturer:'Dr. La Ode I., Lc., M.Pd'},
+        {title:'Interaksi Manusia & Komputer',lecturer:'Adelina Ibrahim, M.Eng'},
+        
+      ],
+      '5':[
+        {title:'Tata Kelolah',lecturer:'Gamaria Mandar, M.Kom'},
+        {title:'Teori Bahasa dan Automata',lecturer:'Adelina Ibrahim, M.Eng'},
+        {title:'Metodologi Penulisan Ilmiah',lecturer:'Sahriar Hamzah, M.T'},
+        {title:'Jaringan Komputer 2',lecturer:'Erwin Gunawan, M.T'},
+        {title:'Teori Kriptografi',lecturer:'A. Haris Muhammad, M.Kom'},
+        {title:'Penjaminan Kualitas Perangkat Lunak',lecturer:'Junaidi Noh, M.T'},
+        {title:'Jaringan Nirkabel',lecturer:'Sahriar Hamzah, M.T'},
+        
+      ],
+      '7':[
+        {title:'Kecakapan Interpersonal',lecturer:'Faujia Umasugi, M.Pd.I'},
+        {title:'Technopreneurship & Etika Profesi',lecturer:'Sakina Sudin, M.Kom'},
+        {title:'Desain Jaringan Wireless',lecturer:'Sahriar Hamzah, M.T'},
+        
+        {title:'Pemrograman Game',lecturer:'Sigit Soijoyo, M.Cs'},
+        {title:'Internet of Things',lecturer:'Agil Assagaf, S.Kom'},
+        {title:'Keamanan Sistem & Jaringan',lecturer:'M. Ihwan Elyas, M.Kom'},
+        {title:'Computer Vision',lecturer:'Junaidi Noh, M.T'}
+      ]
+    };
+    const specializations={
+      '5-SI':[
+        {title:'Tata Kelola TI',lecturer:'Salim Albaar, M.Kom'},
+        {title:'Metodologi Penulisan Ilmiah',lecturer:'Sahriar Hamza, M.T'},
+        {title:'Teori Bahasa dan Automata',lecturer:'Adelina Ibrahim, M.Eng'},
+        {title:'Penjaminan Kualitas Perangkat Lunak',lecturer:'Salim Albaar, M.Kom'},
+      ],
+      '5-INFRA':[
+        {title:'Tata Kelola TI',lecturer:'Salim Albaar, M.Kom'},
+        {title:'Metodologi Penulisan Ilmiah',lecturer:'Sahriar Hamzah, M.T'},
+        {title:'Teori Bahasa dan Automata',lecturer:'Adelina Ibrahim, M.Eng'},
+        {title:'Kriptografi',lecturer:'A. Haris Muhammad, M.Kom'},
+        {title:'Jaringan Nirkabel',lecturer:'Sahriar Hamzah, M.T'},
+        {title:'Robotika',lecturer:'Agil Assagaf, S.Kom'},
+      ],
+      '7-SI':[
+        {title:'Kecakapan Interpersonal',lecturer:'Faujia Umasugi, M.Pd.I'},
+        {title:'Technopreneurship & Etika Profesi',lecturer:'Sakina Sudin, M.Kom'},
+       
+        
+        
+       
+      ],
+      '7-INFRA':[
+        {title:'Kecakapan Interpersonal',lecturer:'Faujia Umasugi, M.Pd.I'},
+        {title:'Technopreneurship & Etika Profesi',lecturer:'Sakina Sudin, M.Kom'},
+        
+      ]
+    };
+    const practicumDefaults={
+      '1':[
+        {title:'Jaringan & Keamanan Informasi (ONLINE)',lecturer:'Santosa, M.Cs',active:true}, 
+        {title:'Dasar Pemrograman',lecturer:'A Haris Muhammad, M.Kom',active:true},
+        {title:'P Teknologi Informasi',lecturer:'Sahriar Hamzah, MT',active:true},
+        {title:'P Aplikasi Komputer',lecturer:'M Dzikrullah S., M.T',active:true},
+      ],
+      '3':[
+        {title:'Jaringan & Keamanan Informasi (ONLINE)',lecturer:'Santosa, M.Cs',active:true},
+        {title:'P Berorientasi Objek',lecturer:'Junaidi Noh, MT',active:true},
+        {title:'Desain Web',lecturer:'Muh. Reza, M.Kom',active:true},
+        {title:'Sistem Basis Data',lecturer:'Fahrizal Halim, M.Kom',active:true},
+        {title:'',lecturer:'',active:false}
+      ],
+      '5-SI':[
+        {title:'Pemrograman Mobile',lecturer:'Sigit Soijoyo, M.Cs',active:true},
+        {title:'Jaringan Komputer 2',lecturer:'Erwin Gunawan, M.T',active:true},
+        {title:'Machine Learning',lecturer:'Gamaria Mandar, M.Kom',active:true},
+        {title:'Pengolahan Citra Digital',lecturer:'M. Dzikrullah S., M.T',active:true}
+        
+      ],
+      '5-INFRA':[
+        {title:'Pemrograman Mobile',lecturer:'Sigit Soijoyo, M.Cs',active:true},
+        {title:'Jaringan Komputer 2',lecturer:'Erwin Gunawan, M.T',active:true},
+        {title:'Jaringan Nirkabel',lecturer:'Sahriar Hamzah, M.T',active:true},
+        {title:'Robotika',lecturer:'Agil Assagaf, S.Kom',active:true},
+        {title:'',lecturer:'',active:false}
+      ],
+      '7-SI':[
+        {title:'Sistem Informasi Geografis (ONLINE)',lecturer:'Santosa, M.Cs',active:true},
+        {title:'Forensik Digital',lecturer:'A Haris Muhammad, M.Kom',active:true},
+        
+        
+        {title:'',lecturer:'',active:false}
+      ],
+      '7-INFRA':[
+        {title:'Praktikum Internet of Things',lecturer:'Agil Assagaf, S.Kom',active:true},
+        {title:'Forensik Digital',lecturer:'A Haris Muhammad, M.Kom',active:true},
+      ]
+    };
+    const STORAGE_KEY='nonreg_schedule_custom_v4';
+    let activeSemester='1';
+    let activeTrack='SI';
+    const dates=Array.from({length:12},(_,i)=>new Date(new Date(START_DATE).getTime()+i*7*86400000));
+    const fmt=d=>new Intl.DateTimeFormat('id-ID',{timeZone:'Asia/Jayapura',weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(d);
+    const nowWit=()=>{const p=Object.fromEntries(new Intl.DateTimeFormat('en',{timeZone:'Asia/Jayapura',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).map(x=>[x.type,x.value]));return new Date(`${p.year}-${p.month}-${p.day}T00:00:00+09:00`)};
+    const meeting=i=>`${Math.floor(i/2)*3+1}–${Math.floor(i/2)*3+3}`;
+
+    function currentIndex(){const today=nowWit();const found=dates.findIndex(d=>d>=today);return found===-1?11:found}
+    function escapeHtml(v=''){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'})[c])}
+    function dataKey(){return ['5','7'].includes(activeSemester)?`${activeSemester}-${activeTrack}`:activeSemester}
+    function isSwapped(){return ['5','7'].includes(activeSemester)}
+    function loadCustom(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')}catch{return {}}}
+    function getCourses(){const key=dataKey(),custom=loadCustom();if(custom[key])return custom[key];const theory=(specializations[key]||semesters[activeSemester]).slice(0,5).map(x=>({...x,type:'Teori',active:true}));while(theory.length<5)theory.push({title:'',lecturer:'',type:'Teori',active:true});const practice=(practicumDefaults[key]||[]).map(x=>({...x,type:'Praktikum'}));while(practice.length<4)practice.push({title:'',lecturer:'',type:'Praktikum',active:false});return [...theory,...practice.slice(0,4)]}
+    function activePractices(){return getCourses().slice(5,9).filter(c=>c.active!==false&&String(c.title||'').trim())}
+    function packageBEnd(count){return ['Tidak ada jadwal','10.00','12.00','15.00','17.00'][count]||'17.00'}
+    function packageKind(pkg){return isSwapped()?(pkg==='A'?'Praktikum':'Teori'):(pkg==='A'?'Teori':'Praktikum')}
+    function renderNext(){const i=currentIndex(),pkg=i%2===0?'A':'B',past=nowWit()>dates[11];document.getElementById('nextSession').innerHTML=`<div class="flex flex-col md:flex-row md:items-center justify-between gap-4"><div><p class="text-[11px] uppercase tracking-wider font-bold text-blue-600">${past?'Perkuliahan Terakhir':'Jadwal Sabtu Terdekat'}</p><h2 class="text-xl sm:text-2xl font-extrabold mt-1">${fmt(dates[i])}</h2><p class="text-sm text-slate-500 mt-1">Minggu ke-${i+1} · Berlaku untuk Semester 1, 3, 5, dan 7</p></div><span class="self-start px-4 py-2 rounded-xl ${pkg==='A'?'bg-blue-700':'bg-emerald-700'} text-white text-sm font-extrabold">PAKET ${pkg}</span></div>`}
+    function renderTabs(){document.getElementById('semesterTabs').innerHTML=Object.keys(semesters).map(s=>`<button data-sem="${s}" class="tab ${s===activeSemester?'active':'bg-white text-slate-700'} border border-slate-200 rounded-2xl py-3 px-4 font-extrabold text-sm">Semester ${s}</button>`).join('')}
+    function renderTrackTabs(){const el=document.getElementById('trackTabs'),show=['5','7'].includes(activeSemester);el.className=`no-print ${show?'flex':'hidden'} flex-wrap gap-3`;el.innerHTML=show?`<button data-track="SI" class="track ${activeTrack==='SI'?'active':'bg-white'} border border-slate-200 px-5 py-2.5 rounded-xl text-xs font-extrabold">Sistem Informasi</button><button data-track="INFRA" class="track ${activeTrack==='INFRA'?'active':'bg-white'} border border-slate-200 px-5 py-2.5 rounded-xl text-xs font-extrabold">IT Infrastruktur</button>`:''}
+    function packageHtml(name,courses,kind){const theory=kind==='Teori',times=theory?slotsA:slotsB,durations=theory?durationsA:durationsB,end=theory?'16.30':packageBEnd(courses.length),color=theory?'bg-blue-700':'bg-violet-700';return `<div class="package-card bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm"><div class="p-5 ${color} text-white flex justify-between items-center"><div><p class="text-[10px] uppercase font-bold opacity-75">Mata Kuliah ${kind}</p><h3 class="font-extrabold text-xl">Paket ${name}</h3><p class="text-[10px] mt-1 opacity-80">${courses.length?'Selesai pukul '+end+' WIT':'Belum dijadwalkan'}</p></div><span class="text-xs bg-white/15 px-3 py-1.5 rounded-full">${courses.length} Mata Kuliah</span></div><div>${courses.length?courses.map((c,i)=>`${(theory?i===3:i===2)?'<div class="bg-amber-50 text-amber-800 text-center text-xs font-extrabold py-3 border-y border-amber-200"><i class="fa-solid fa-mosque mr-1"></i> ISHOMA '+(theory?'12.30–13.30':'12.00–13.00')+' WIT</div>':''}<div class="p-4 border-b border-slate-100 flex gap-4 ${!theory?'bg-violet-50':''}"><div class="w-24 shrink-0"><p class="font-extrabold text-sm text-blue-800">${times[i]}</p><p class="text-[10px] text-slate-400">${durations[i]} menit</p></div><div class="flex-1"><div class="flex flex-wrap gap-2"><h4 class="font-extrabold text-sm text-slate-900">${escapeHtml(c.title)}</h4>${!theory?'<span class="text-[9px] font-extrabold bg-violet-600 text-white px-2 py-0.5 rounded-full">PRAKTIKUM</span>':''}</div><p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-user-tie mr-1 text-slate-400"></i>${escapeHtml(c.lecturer)}</p><p class="text-[11px] text-slate-400 mt-1"><i class="fa-solid fa-door-open mr-1"></i>${escapeHtml(c.room||'Ruang menyesuaikan')} · ${escapeHtml(c.classroom||('Non-Reg Semester '+activeSemester))}</p></div></div>`).join(''):'<div class="p-8 text-center text-sm text-slate-400"><i class="fa-solid fa-flask-vial text-2xl block mb-2"></i>Belum ada praktikum yang dipilih.</div>'}</div></div>`}
+    function renderSemester(){const courses=getCourses(),theory=courses.slice(0,5),practice=courses.slice(5,9).filter(c=>c.active!==false&&String(c.title||'').trim()),track=isSwapped()?` · ${activeTrack==='SI'?'Sistem Informasi':'IT Infrastruktur'}`:'',swap=isSwapped(),summary=swap?`Paket A: ${practice.length} praktikum aktif · Paket B: 5 teori`:`Paket A: 5 teori · Paket B: ${practice.length} praktikum aktif`;document.getElementById('semesterContent').innerHTML=`<div class="mb-4 bg-blue-50 border border-blue-200 rounded-2xl p-4 flex flex-wrap justify-between gap-2"><p class="font-bold text-blue-950">Semester ${activeSemester}${track}</p><p class="text-xs text-blue-700">${summary}</p></div><div class="grid lg:grid-cols-2 gap-5">${swap?packageHtml('A',practice,'Praktikum')+packageHtml('B',theory,'Teori'):packageHtml('A',theory,'Teori')+packageHtml('B',practice,'Praktikum')}</div>`}
+    function renderCalendar(){document.getElementById('calendarBody').innerHTML=dates.map((d,i)=>{const pkg=i%2===0?'A':'B';return `<tr class="${i===currentIndex()?'bg-blue-50':''}"><td class="p-4 text-center font-extrabold">${i+1}</td><td class="p-4 font-semibold">${fmt(d)}</td><td class="p-4 text-center"><span class="font-extrabold px-3 py-1 rounded-full ${pkg==='A'?'bg-blue-100 text-blue-700':'bg-emerald-100 text-emerald-700'}">Paket ${pkg}</span></td></tr>`}).join('')}
+    function openEditor(){const courses=getCourses(),swap=isSwapped();document.getElementById('editorTitle').textContent=`Semester ${activeSemester}${swap?' · '+(activeTrack==='SI'?'Sistem Informasi':'IT Infrastruktur'):''}`;document.getElementById('editorFields').innerHTML=courses.map((c,i)=>{const theory=i<5,session=theory?i+1:i-4,pkg=swap?(theory?'B':'A'):(theory?'A':'B');return `<fieldset class="border ${theory?'border-blue-200':'border-violet-300 bg-violet-50'} rounded-2xl p-4"><legend class="px-2 text-xs font-extrabold ${theory?'text-blue-700':'text-violet-700'}">Paket ${pkg} · ${theory?'Teori':'Praktikum'} ${session}</legend><div class="space-y-3">${!theory?`<label class="flex items-center gap-2 text-xs font-bold text-violet-700"><input type="checkbox" name="active-${i}" ${c.active!==false?'checked':''}> Tampilkan praktikum ini</label>`:''}<input name="title-${i}" value="${escapeHtml(c.title)}" placeholder="Nama mata kuliah ${theory?'teori':'praktikum'}" class="w-full border rounded-xl px-3 py-2 text-xs"><input name="lecturer-${i}" value="${escapeHtml(c.lecturer)}" placeholder="Dosen pengampu" class="w-full border rounded-xl px-3 py-2 text-xs"><div class="grid grid-cols-2 gap-2"><input name="classroom-${i}" value="${escapeHtml(c.classroom||'')}" placeholder="Kelas" class="w-full border rounded-xl px-3 py-2 text-xs"><input name="room-${i}" value="${escapeHtml(c.room||'')}" placeholder="Ruang/Laboratorium" class="w-full border rounded-xl px-3 py-2 text-xs"></div></div></fieldset>`}).join('');document.getElementById('editorModal').classList.remove('hidden')}
+    function closeEditor(){document.getElementById('editorModal').classList.add('hidden')}
+    document.getElementById('semesterTabs').addEventListener('click',e=>{const btn=e.target.closest('[data-sem]');if(!btn)return;activeSemester=btn.dataset.sem;activeTrack='SI';renderTabs();renderTrackTabs();renderSemester();renderNext();renderCalendar()});
+    document.getElementById('trackTabs').addEventListener('click',e=>{const btn=e.target.closest('[data-track]');if(!btn)return;activeTrack=btn.dataset.track;renderTrackTabs();renderSemester();renderNext();renderCalendar()});
+    document.getElementById('editBtn').addEventListener('click',openEditor);document.getElementById('closeEditor').addEventListener('click',closeEditor);document.getElementById('cancelEditor').addEventListener('click',closeEditor);
+    document.getElementById('scheduleForm').addEventListener('submit',e=>{e.preventDefault();const fd=new FormData(e.target),items=Array.from({length:9},(_,i)=>{const title=String(fd.get(`title-${i}`)||'').trim();return {title,lecturer:fd.get(`lecturer-${i}`),classroom:fd.get(`classroom-${i}`),room:fd.get(`room-${i}`),type:i<5?'Teori':'Praktikum',active:i<5||fd.has(`active-${i}`)||Boolean(title)}});const custom=loadCustom();custom[dataKey()]=items;localStorage.setItem(STORAGE_KEY,JSON.stringify(custom));closeEditor();renderSemester();renderNext()});
+    document.getElementById('resetData').addEventListener('click',()=>{if(!confirm('Kembalikan jadwal ini ke data awal?'))return;const custom=loadCustom();delete custom[dataKey()];localStorage.setItem(STORAGE_KEY,JSON.stringify(custom));closeEditor();renderSemester()});
+    renderNext();renderTabs();renderTrackTabs();renderSemester();renderCalendar();
+  </script>
+</body>
+</html>
